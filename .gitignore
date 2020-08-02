@@ -1,0 +1,10 @@
+node_modules/
+public/packages/
+public/.sencha/
+public/build/development/
+public/ext/
+public/sass/
+public/bootstrap.*
+public/classic.*
+public/modern.*
+package-lock.json
