@@ -52,7 +52,7 @@ module.exports = function (passport) {
   /* User Endpoint */
 
 
-  router.get('/users', async function (req, res, next) {
+  router.get('/users', auth.authenticate, async function (req, res, next) {
     let result = await models.User.findAll();
     res.send(result);
   });
