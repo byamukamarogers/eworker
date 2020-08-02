@@ -34,8 +34,9 @@ Ext.define('eworker.view.main.Main', {
     title: 'Eworker',
     layout: 'border',
     height: 'max',
-
-
+    listeners:{
+        beforerender:'onBeforeRender'
+    },
     items: [
         {
             region: 'north',

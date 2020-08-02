@@ -8,6 +8,21 @@ Ext.define('eworker.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
     alias: 'controller.main',
+    onBeforeRender: async function () {
+        try {
+            let response = await Ext.Ajax.request({ url: `/users/currentuser` });
+            if (response.responseText) {
+                let user = JSON.parse(response.responseText);
+                //eworker.Globals.currentUser = user;
+                this.getViewModel().setData({ fullName: user.fullName.toUpperCase() })
+            } else {
+                window.location.assign('/login');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+    },
     onAccountTypeSelected: function () {
         Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
         Ext.ComponentQuery.query('#centerPanel')[0].add({

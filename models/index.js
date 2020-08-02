@@ -8,12 +8,15 @@ db.Job = sequelize.import('./Job');
 
 db.Staff = sequelize.import('./Staff');
 db.StaffType = sequelize.import('./StaffType');
+db.User = sequelize.import('./User');
+db.UserPermission = sequelize.import('./UserPermission');
+db.UserRole = sequelize.import('./UserRole');
 
 //Staff Relations
 db.Staff.hasOne(db.StaffType,{foreignKey: 'staffTypeId', sourceKey: 'staffTypeId'});
 
-sequelize.sync({ alter: true })
+/* sequelize.sync({ alter: true })
   .then(() => {
     console.log(`Table alter on`)
-  })
+  }) */
 module.exports = db;

@@ -1,10 +1,9 @@
 module.exports = function (sequelize, DataTypes) {
     var User = sequelize.define('User', {
         userId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(50),
             field: 'userid',
-            primaryKey: true,
-            autoIncrement: true
+            primaryKey: true
         },
         firstName: {
             type: DataTypes.STRING(50),
@@ -22,14 +21,19 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING(100),
             field: 'address'
         },
-        accountTypeId:{
+        accountTypeId: {
             type: DataTypes.INTEGER,
             field: 'accounttypeid'
 
         },
+        staffId: {
+            type: DataTypes.INTEGER,
+            field: 'staffid'
+        },
         email: {
             type: DataTypes.STRING(50),
-            field: 'email'
+            field: 'email',
+            unique: true
         },
         password: {
             type: DataTypes.TEXT,
@@ -37,7 +41,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         addedBy: {
             type: DataTypes.INTEGER,
-            field: 'staffid'
+            field: 'addedby'
 
         }
     }, {
