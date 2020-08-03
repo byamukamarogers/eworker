@@ -97,6 +97,125 @@ module.exports = function (passport) {
       console.log(err);
     }
   });
+  //Modified to join Users to Staff
+  router.get('/users', async function (req, res) {
+    let id = req.query.id;
+    let data;
+    if (!isNaN(id)) {
+      data = await models.User.findAll({
+        include: [{
+          model: models.Staff,
+          where: { healthUnitId: id }
+        }]
+      });
+    }
+    else {
+      data = await models.User.findAll({ include: [models.Staff] });
+    }
+    let results = [];
+    data.forEach(dataitem => {
+      dataitem.dataValues.staffFullName = dataitem.Staff.firstName + ', ' + dataitem.Staff.lastName;
+      dataitem.dataValues.lastName = dataitem.Staff.lastName;
+      dataitem.dataValues.firstName = dataitem.Staff.firstName;
+      dataitem.dataValues.email = dataitem.Staff.email;
+      dataitem.dataValues.departmentId = dataitem.Staff.departmentId;
+      dataitem.dataValues.phone1 = dataitem.Staff.phone1;
+      dataitem.dataValues.userId = dataitem.userId;
+      dataitem.dataValues.healthUnitId = dataitem.Staff.healthUnitId;
+      //results.push({ ...dataitem.get({ flat: true }) });
+    })
+    res.send(data);
+  });
+  router.get('/usersearch', async function (req, res) {
+    let searchtype = req.query.searchtype;
+    let val = req.query.val;
+    let data;
+
+    switch (searchtype) {
+      case 'userid':
+        data = await models.User.findAll({ where: { userid: val } });
+        break;
+      case 'name':
+        data = await models.User.findAll({ where: { [Op.or]: [{ firstname: { [Op.like]:  `%${val}%` } }, { lastname: { [Op.like]:  `%${val}%`} }] } });
+        break;
+
+      case 'phoneno':
+        data = await models.User.findAll({ where: { [Op.or]: [{ phone1: { [Op.like]:  `%${val}%` } }, { phone2: { [Op.like]:  `%${val}%` } }] } });
+        break;
+
+      default:
+        return res.status(500).send('Invalid search parameters');
+    }
+
+
+    res.send(data);
+  });
+
+  router.get('/userroles', async function (req, res) {
+    let userroles = await models.UserRole.findAll();
+    res.send(userroles);
+  });
+
+  router.put('/userpermissions', async function (req, res) {
+    let records = req.body;
+    let currentuser = await models.User.findOne({ where: { userId: req.session.passport.user } });
+    if (!currentuser) {
+      console.log('Failed to find current user');
+      return res.status(500).send('Failed to find current user');
+    }
+    records = records.map(permission => {
+      permission.createdBy = currentuser.staffId;
+      return permission;
+    });
+    try {
+      records.forEach(async (record) => {
+        let result = await models.UserPermission.update(record, { where: { staffId: currentuser.staffId, roleId: record.roleId } });
+      });
+      res.send({ success: true, data: records });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, error: err });
+    }
+  });
+
+  /**
+   * Used to load up permissions. If they are missing for a user, add all permission types with defaults 
+   */
+  router.get('/userpermissions', async function (req, res) {
+    if (req.query.staffid) {
+      let currentuser = await models.User.findOne({ where: { userId: req.session.passport.user.userId } });
+      if (!currentuser) return res.send([]);
+      let staffid = parseInt(req.query.staffid);
+      let userpermissions = await models.UserPermission.findAll({ where: { staffId: staffid }, include: [models.UserRole] });
+      if (userpermissions.length === 0) {
+        let user = await models.User.findOne({ where: { staffId: staffid } });
+        if (user) {
+          let userroles = await models.UserRole.findAll();
+          userroles.forEach(async (role) => {
+            let userpermission = await models.UserPermission.create({
+              staffId: staffid,
+              roleId: role.roleId,
+              roleName: role.roleName,
+              readOnly: false,
+              write: false,
+              edit: false,
+              createdDate: new Date(),
+              createdBy: currentuser.staffId
+            });
+            userpermissions.push(userpermission)
+          });
+        }
+      } else {
+        userpermissions = userpermissions.map(item => {
+          item.dataValues.roleName = item.Role.roleName;
+          return item;
+        });
+      }
+      res.send(userpermissions);
+    }
+
+  });
+
   router.get('/staff', async function (req, res) {
     let staffid = req.query.staffid;
     let data;

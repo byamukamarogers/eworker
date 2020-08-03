@@ -14,6 +14,8 @@ db.UserRole = sequelize.import('./UserRole');
 
 //Staff Relations
 db.Staff.hasOne(db.StaffType,{foreignKey: 'staffTypeId', sourceKey: 'staffTypeId'});
+db.UserPermission.belongsTo(db.UserRole, { foreignKey: 'roleid' }); 
+db.User.belongsTo(db.Staff, { foreignKey: 'staffid' });
 
 /* sequelize.sync({ alter: true })
   .then(() => {

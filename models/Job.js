@@ -23,9 +23,22 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             field: 'employerid'
         },
+        isApproved: {
+            type: DataTypes.BOOLEAN,
+            field: 'staffid',
+            defaultValue: false
+        },
+        approvedBy: {
+            type: DataTypes.INTEGER,
+            field: 'staffid'
+        },
         datePosted:{
             type: DataTypes.DATE,
-            field:''
+            field:'dateposted'
+        },
+        expiryDate:{
+            type: DataTypes.DATE,
+            field:'expirydate'
         }
     }, {
         tableName: 'jobs',

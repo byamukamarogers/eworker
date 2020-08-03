@@ -15,20 +15,6 @@ Ext.define('eworker.view.UserManagement.UserSearch', {
     defaultButton: 'btnFind',
     items: [
         {
-            xtype: 'combobox',
-            margin: 5,
-            width: 510,
-            reference: 'cboHealthUnits',
-            fieldLabel: 'Health Unit',
-            displayField: 'healthUnitName',
-            value: 'ALL Facilities',
-            valueField: 'healthUnitId',
-            bind: '{healthUnitId}',
-            listeners: {
-                select: 'onHealthUnitSelected'
-            }
-        },
-        {
             xtype: 'container',
             layout: 'hbox',
             items: [

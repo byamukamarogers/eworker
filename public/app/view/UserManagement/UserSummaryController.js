@@ -4,24 +4,6 @@ Ext.define('eworker.view.UserManagement.UserSummaryController', {
 
     onAfterRender: async function () {
         this.loadUserRoles();
-        this.loadDepartments();
-    },
-
-    loadDepartments: async function () {
-        let response = await Ext.Ajax.request({
-            url: '/departments',
-            method: 'get'
-        });
-        if (response) {
-            let records = response.responseText;
-            records = JSON.parse(records);
-            let combo = this.lookupReference('cboDepartments')
-            let store = Ext.create('Ext.data.Store', {
-                data: records
-            });
-            store.load();
-            combo.setStore(store);
-        }
     },
 
     onOKClicked: async function () {

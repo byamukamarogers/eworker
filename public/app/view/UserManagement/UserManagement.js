@@ -6,7 +6,8 @@ Ext.define('eworker.view.UserManagement.UserManagement', {
         'eworker.view.UserManagement.UserManagementController',
         'eworker.view.UserManagement.UserManagementModel',
         'eworker.view.UserManagement.UserSearch',
-        'eworker.view.UserManagement.UserSummary'
+        'eworker.view.UserManagement.UserSummary',
+        'eworker.view.UserManagement.UserRegistration'
     ],
 
     controller: 'usermanagement',

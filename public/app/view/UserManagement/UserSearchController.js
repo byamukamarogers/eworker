@@ -3,15 +3,14 @@ Ext.define('eworker.view.UserManagement.UserSearchController', {
     alias: 'controller.usersearch',
 
     onAfterRender: async function () {
-        this.loadHealthUnits();
-        //this.loadUsers();
+        this.loadUsers();
     },
 
 
     onFindClicked: async function () {
         let value = this.lookupReference('txtFind').value;
         let searchtype = this.lookupReference('cboSearchType').value;
-        let grd = this.lookupReference('grdResults');
+        let grd = this.lookupReference('grdUsers');
 
         if (!value) {
             Ext.Msg.alert('User Register', 'Please enter a search value');
@@ -23,7 +22,7 @@ Ext.define('eworker.view.UserManagement.UserSearchController', {
         }
 
         let response = await Ext.Ajax.request({
-            url: 'usersearch?searchtype=' + searchtype + '&val=' + value,
+            url: '/usersearch?searchtype=' + searchtype + '&val=' + value,
             method: 'get'
         });
         if (response.responseText) {
@@ -35,32 +34,16 @@ Ext.define('eworker.view.UserManagement.UserSearchController', {
 
     },
 
-    loadHealthUnits: async function () {
+    loadUsers: async function () {        
+        let grd = this.lookupReference('grdUsers');
         let response = await Ext.Ajax.request({
-            url: '/healthunits',
-            method: 'get'
-        });
-        if (response) {
-            let records = response.responseText;
-            records = JSON.parse(records);
-            let combo = this.lookupReference('cboHealthUnits')
-            let store = Ext.create('Ext.data.Store', {
-                data: records
-            });
-            store.load();
-            combo.setStore(store);
-        }
-    },
-    loadUsers: async function (healthUnitId) {
-        let response = await Ext.Ajax.request({
-            url: '/users?id=' + healthUnitId,
+            url: '/users',
             method: 'get'
         });
         
         if (response) {
             let records = response.responseText;
             records = JSON.parse(records);
-            let grd = this.lookupReference('grdUsers')
             let store = Ext.create('Ext.data.Store', {
                 data: records
             });
@@ -69,10 +52,6 @@ Ext.define('eworker.view.UserManagement.UserSearchController', {
             grd.setStore(store);
 
         }
-    },
-    onHealthUnitSelected: async function (sender, record) {
-        let healthunitid = record.data.healthUnitId;
-        this.loadUsers(healthunitid)
     },
     onUserSelected: async function (sender, record, opts) {
         this.data = record.data;

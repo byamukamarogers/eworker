@@ -26,6 +26,7 @@ Ext.define('eworker.view.main.Main', {
         'eworker.view.Worker.Workers',
         'eworker.view.User.AccountType',
         'eworker.view.Employer.Employers',
+        'eworker.view.UserManagement.UserManagement',
     ],
 
     controller: 'main',
@@ -146,6 +147,7 @@ Ext.define('eworker.view.main.Main', {
                             items: [
                                 { text: 'Dashboard' },
                                 { text: 'Staff', iconCls: 'x-fa fa-users', handler: 'onStaffSelected' },
+                                { text: 'User Search', iconCls: 'x-fa fa-find', handler: 'onSearchUserSelected' },
                                 { text: 'AccountType', iconCls: 'x-fa fa-list', handler: 'onAccountTypeSelected' }
                             ]
                         }

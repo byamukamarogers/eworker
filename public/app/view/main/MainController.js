@@ -47,6 +47,12 @@ Ext.define('eworker.view.main.MainController', {
             xtype: 'staff-registry', autoShow: true
         });
     },
+    onSearchUserSelected: function () {
+        Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
+        Ext.ComponentQuery.query('#centerPanel')[0].add({
+            xtype: 'user-management', autoShow: true
+        });
+    },
 
     onLogoutClicked: async function () {
         await Ext.Ajax.request({ url: '/users/logout' });
