@@ -22,9 +22,28 @@ function init(passport) {
                 let isValid = bcrypt.compareSync(password, user.password);
                 if (isValid) {
                     user.password = undefined;
-                    let staff = await models.Staff.findOne({ where: { staffId: user.staffId } });
-                    if (staff) {
-                        user.fullName = [staff.firstName, staff.lastName].join(' ');
+                    let userInfo;
+                    if (user.accountTypeId === 1) {
+                        //Staff
+                        userInfo = await models.Staff.findOne({ where: { email: user.userId } });
+                        if (userInfo) {
+                            user.fullName = [userInfo.firstName, userInfo.lastName].join(' ');
+                            user.user_id = userInfo.staffId
+                        }
+                    } else if (user.accountTypeId === 2) {
+                        //Employer
+                        userInfo = await models.Employer.findOne({ where: { email: user.userId } });
+                        if (userInfo) {
+                            user.fullName = [userInfo.firstName, userInfo.lastName].join(' ');                            
+                            user.user_id = userInfo.employerId
+                        }
+                    } else {
+                        //Worker
+                        userInfo = await models.Worker.findOne({ where: { email: user.userId } });
+                        if (userInfo) {
+                            user.fullName = [userInfo.firstName, userInfo.lastName].join(' ');                            
+                            user.user_id = userInfo.workerId
+                        }
                     }
                     done(null, user.get({ flat: true }));
                 } else {
@@ -49,9 +68,28 @@ function init(passport) {
             user.password = null;
             //let roles = await models.Roles.findAll({ where: { userId: userid } });
             //user.roles = roles;
-            let staff = await models.Staff.findOne({ where: { staffId: user.staffId } });
-            if (staff) {
-                user.fullName = [staff.firstName, staff.lastName].join(' ');
+            let userInfo;
+            if (user.accountTypeId === 1) {
+                //Staff
+                userInfo = await models.Staff.findOne({ where: { email: user.userId } });
+                if (userInfo) {
+                    user.fullName = [userInfo.firstName, userInfo.lastName].join(' ');
+                    user.user_id = userInfo.staffId
+                }
+            } else if (user.accountTypeId === 2) {
+                //Employer
+                userInfo = await models.Employer.findOne({ where: { email: user.userId } });
+                if (userInfo) {
+                    user.fullName = [userInfo.firstName, userInfo.lastName].join(' ');                            
+                    user.user_id = userInfo.employerId
+                }
+            } else {
+                //Worker
+                userInfo = await models.Worker.findOne({ where: { email: user.userId } });
+                if (userInfo) {
+                    user.fullName = [userInfo.firstName, userInfo.lastName].join(' ');                            
+                    user.user_id = userInfo.workerId
+                }
             }
             return done(null, user);
         }

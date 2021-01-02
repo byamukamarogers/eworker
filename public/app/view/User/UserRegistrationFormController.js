@@ -51,6 +51,6 @@ Ext.define('eworker.view.User.UserRegistrationFormController', {
                 }
             }
         }
-    },
+    }
 
 });

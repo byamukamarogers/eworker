@@ -19,7 +19,9 @@ module.exports = function (sequelize, DataTypes) {
         },
         email: {
             type: DataTypes.STRING(100),
-            field: 'email'
+            field: 'email',
+            unique: true,
+            allowNull: false
         },
         gender: {
             type: DataTypes.STRING(7),
@@ -48,7 +50,7 @@ module.exports = function (sequelize, DataTypes) {
             field: 'createdby',
             allowNull: false
         }
-        
+
     },
         {
             underscored: true,

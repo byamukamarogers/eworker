@@ -2,7 +2,7 @@ module.exports = function (sequelize, DataTypes) {
     var Job = sequelize.define('Job', {
         jobId: {
             type: DataTypes.INTEGER,
-            field: 'programid',
+            field: 'jobid',
             primaryKey: true,
             autoIncrement: true
         },
@@ -19,13 +19,13 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             field: 'jobcategoryid'
         },
-        postedBy: {
+        employerId: {
             type: DataTypes.INTEGER,
             field: 'employerid'
         },
         isApproved: {
             type: DataTypes.BOOLEAN,
-            field: 'staffid',
+            field: 'isapproved',
             defaultValue: false
         },
         approvedBy: {
@@ -34,11 +34,13 @@ module.exports = function (sequelize, DataTypes) {
         },
         datePosted:{
             type: DataTypes.DATE,
-            field:'dateposted'
+            field:'dateposted',
+            defaultValue: new Date()
         },
         expiryDate:{
             type: DataTypes.DATE,
-            field:'expirydate'
+            field:'expirydate',
+            allowNull: false
         }
     }, {
         tableName: 'jobs',

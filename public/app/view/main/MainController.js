@@ -32,13 +32,19 @@ Ext.define('eworker.view.main.MainController', {
     onSearchWorkerSelected: function () {
         Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
         Ext.ComponentQuery.query('#centerPanel')[0].add({
-            xtype: 'userList', autoShow: true
+            xtype: 'workersList', autoShow: true
         });
     },
     onRegisterEmployer: function () {
         Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
         Ext.ComponentQuery.query('#centerPanel')[0].add({
-            xtype: 'userRegistrationForm', autoShow: true
+            xtype: 'employerRegForm', autoShow: true
+        });
+    },
+    onEmployerListSelected: function () {
+        Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
+        Ext.ComponentQuery.query('#centerPanel')[0].add({
+            xtype: 'employerList', autoShow: true
         });
     },
     onStaffSelected: function () {
@@ -51,6 +57,36 @@ Ext.define('eworker.view.main.MainController', {
         Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
         Ext.ComponentQuery.query('#centerPanel')[0].add({
             xtype: 'user-management', autoShow: true
+        });
+    },
+    onWorkersListSelect: function () {
+        Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
+        Ext.ComponentQuery.query('#centerPanel')[0].add({
+            xtype: 'workersList', autoShow: true
+        });
+    },
+    onRegisterWorker: function () {
+        Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
+        Ext.ComponentQuery.query('#centerPanel')[0].add({
+            xtype:'workerRegistrationForm', autoShow: true
+        });
+    },
+    onComplaintsSelect: function () {
+        Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
+        Ext.ComponentQuery.query('#centerPanel')[0].add({
+            xtype:'worker-complaints', autoShow: true
+        });
+    },
+    onJobSelect: function () {
+        Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
+        Ext.ComponentQuery.query('#centerPanel')[0].add({
+            xtype: 'jobs-list', autoShow: true
+        });
+    },
+    onJobCategorySelect: function () {
+        Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
+        Ext.ComponentQuery.query('#centerPanel')[0].add({
+            xtype: 'jobcategory', autoShow: true
         });
     },
 

@@ -17,11 +17,13 @@ Ext.define('eworker.view.User.AccountType', {
     layout:'hbox',
     items: [
         {
-            title: 'New Account Tye',
+            title: 'New Account Type',
             width: 300,
             bodyPadding: 5,
+            reference: 'accountTypeForm',
             margin:2,
             frame: true,
+            xtype: 'form',
             items: [
                 {
                     xtype: 'numberfield',
@@ -40,39 +42,43 @@ Ext.define('eworker.view.User.AccountType', {
                 {
                     xtype: 'textfield',
                     fieldLabel: 'Account Type Name',
-                    bind: '{accountTypeName}'
+                    bind: '{accountTypeName}',
+                    allowBlank: false
                 },
                 {
                     xtype: 'textarea',
                     fieldLabel: 'Description',
                     bind: '{description}'
-                },
+                }
             ],
             buttons: [
                 {
                     xtype: 'button',
                     text: 'cancel',
-                    inconCls: 'x-fa fas fa-reset'
+                    handler: function() {
+                        this.up('form').getForm().reset();
+                    },
+                    iconCls: 'x-fa fas fa-refresh'
                 },
                 {
                     xtype: 'button',
                     text: 'save',
-                    inconCls: 'x-fa fas fa-save',
-                    handler: 'onSaveClicked'
+                    iconCls: 'x-fa fas fa-save',
+                    handler: 'onSaveClicked',
+                    formBind:true
                 },
             ]
         },
         {
-            extend: 'Ext.grid.Panel',
             xtype: 'grid',
             reference: 'grdAccountTypes',
             title: 'Account Types',
             columns: [
-                { text: 'Type Id', dataIndex: 'AccountTypeId', flex: 0.2 },
+                { text: 'Type Id', dataIndex: 'accountTypeId', flex: 0.2 },
                 { text: 'Acount Type Name', dataIndex: 'accountTypeName', flex: 0.4 },
                 { text: 'Description', dataIndex: 'description', flex: 0.4 }
             ],
-            height: 200,
+            height: 400,
             width: '50%',
         }
     ]

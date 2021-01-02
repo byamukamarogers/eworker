@@ -1,21 +1,25 @@
 module.exports = function (sequelize, DataTypes) {
-    var User = sequelize.define('User', {
-        userId: {
-            type: DataTypes.STRING(50),
-            field: 'userid',
-            primaryKey: true
+    var Employer = sequelize.define('Employer', {
+        employerId: {
+            type: DataTypes.INTEGER,
+            field: 'employerid',
+            primaryKey: true,
+            autoIncrement: true
         },
         firstName: {
             type: DataTypes.STRING(50),
             field: 'firstname',
+            allowNull: false
         },
         lastName: {
             type: DataTypes.STRING(50),
             field: 'lastname',
+            allowNull: false
         },
         telephone: {
             type: DataTypes.STRING(15),
-            field: 'telephone'
+            field: 'telephone',
+            allowNull: false
         },
         address: {
             type: DataTypes.STRING(100),
@@ -23,28 +27,27 @@ module.exports = function (sequelize, DataTypes) {
         },
         accountTypeId: {
             type: DataTypes.INTEGER,
-            field: 'accounttypeid'
+            field: 'accounttypeid',
+            allowNull: false,
+            defaultValue: 2
+            //Employer accoutypeid
         },
         email: {
             type: DataTypes.STRING(50),
             field: 'email',
-            unique: true
-        },
-        password: {
-            type: DataTypes.TEXT,
-            field: 'password',
-            //123
-            defaultValue: '$2b$10$779fao14zR6oifatoRkpYOd4I5aQ1r44bRrjQtyuq9IfekQO1pupu'
+            unique: true,
+            allowNull: false
         },
         addedBy: {
             type: DataTypes.INTEGER,
-            field: 'addedby'
+            field: 'addedby',
+            allowNull: true
         }
     }, {
-        tableName: 'users',
+        tableName: 'employers',
         underscored: true,
-        timestamps: true,
+        timestamps: true
 
     })
-    return User;
+    return Employer;
 }

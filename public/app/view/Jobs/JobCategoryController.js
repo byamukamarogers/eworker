@@ -1,15 +1,16 @@
-Ext.define('eworker.view.Jobs.JobPostFormController', {
+Ext.define('eworker.view.jobs.JobCategoryController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.jobs-jobpostform',
+    alias: 'controller.jobs-jobcategory',
     onAfterRender: async function () {
         let data = this.getView().formData;
         if (data) {
             this.getViewModel().setData(data);
+            this.lookupReference('complaint').setValue(data.complaint);
         }
         await this.loadJobCategory();
     },
-    loadJobCategory: async function(){
-        let combo = this.lookupReference('cmbJobCategory');
+    loadJobCategory: async function () {
+        let combo = this.lookupReference('grdJobCategory');
         let response = await Ext.Ajax.request({ url: '/jobcategory', method: 'get' });
         if (response.responseText) {
             let records = JSON.parse(response.responseText);
@@ -22,12 +23,22 @@ Ext.define('eworker.view.Jobs.JobPostFormController', {
         let data = this.getViewModel().getData();
         this.saveData(data);
     },
-    
+    onEditJobCategory: async function () {
+
+        let selection = this.lookupReference('grdJobCategory').getSelection();
+        if (selection.length) {
+            let data = selection[0].data;
+            this.getViewModel().setData(data);
+        } else {
+            Ext.Msg.alert('Error', 'Please select a record');
+        }
+    },
+
     cleanupData: function (rawData) {
         let data = {};
         for (let key in rawData) {
             let type = typeof rawData[key]
-            if (key.includes('date') || key.includes('Date') || !['object'].includes(type)) {
+            if (['string', 'number', 'date'].includes(type)) {
                 data[key] = rawData[key];
             }
         }
@@ -37,9 +48,9 @@ Ext.define('eworker.view.Jobs.JobPostFormController', {
     saveData: async function (rawData) {
         let form = this.getView();
         let data = this.cleanupData(rawData);
-        console.log(data);
+        console.log(data)
         let response = await Ext.Ajax.request({
-            url: '/job',
+            url: '/jobcategory',
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             params: JSON.stringify(data)
@@ -48,14 +59,11 @@ Ext.define('eworker.view.Jobs.JobPostFormController', {
         if (response.responseText) {
             let result = JSON.parse(response.responseText);
             if (result.status === 'OK') {
-                Ext.Msg.alert('E-Worker', 'Data has been successfully saved',);
-                let parent = form.up('window');
-                if (parent) {
-                    parent.destroy();
-                }
+                Ext.Msg.alert('E-Worker', 'Data has been successfully saved');
+                this.loadJobCategory();
+                let parent = this.lookupReference('jobCategoryForm').getForm().reset();
             }
         }
     }
-
 
 });

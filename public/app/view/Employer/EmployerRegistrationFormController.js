@@ -1,33 +1,24 @@
-Ext.define('eworker.view.Jobs.JobPostFormController', {
+Ext.define('eworker.view.Employer.EmployerRegistrationFormController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.jobs-jobpostform',
+    alias: 'controller.employer-employerregistrationform',
     onAfterRender: async function () {
         let data = this.getView().formData;
         if (data) {
             this.getViewModel().setData(data);
-        }
-        await this.loadJobCategory();
-    },
-    loadJobCategory: async function(){
-        let combo = this.lookupReference('cmbJobCategory');
-        let response = await Ext.Ajax.request({ url: '/jobcategory', method: 'get' });
-        if (response.responseText) {
-            let records = JSON.parse(response.responseText);
-            let store = Ext.create('Ext.data.Store', { data: records });
-            combo.setStore(store);
-            store.load();
+            this.lookupReference('txtPassword').setHidden(true);
+            this.lookupReference('txtEmail').setEditable(false);
         }
     },
     onSaveClicked: async function () {
         let data = this.getViewModel().getData();
         this.saveData(data);
     },
-    
+
     cleanupData: function (rawData) {
         let data = {};
         for (let key in rawData) {
             let type = typeof rawData[key]
-            if (key.includes('date') || key.includes('Date') || !['object'].includes(type)) {
+            if (['string', 'number', 'date'].includes(type)) {
                 data[key] = rawData[key];
             }
         }
@@ -37,9 +28,8 @@ Ext.define('eworker.view.Jobs.JobPostFormController', {
     saveData: async function (rawData) {
         let form = this.getView();
         let data = this.cleanupData(rawData);
-        console.log(data);
         let response = await Ext.Ajax.request({
-            url: '/job',
+            url: '/employer',
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             params: JSON.stringify(data)
@@ -56,6 +46,5 @@ Ext.define('eworker.view.Jobs.JobPostFormController', {
             }
         }
     }
-
 
 });

@@ -5,7 +5,7 @@ let dbhost = 'localhost';
 let dbname = 'eworker'; //MYSQL
 let dbuser = 'root'; //MYSQL
 let dbpassword=''; //MYSQL
-let dbport='90';
+let dbport='3306';
 
 module.exports.Sequelize = Sequelize;
 let conn = new Sequelize(dbname, dbuser, dbpassword, {

@@ -44,11 +44,10 @@ Ext.define('eworker.view.User.AccountTypeController', {
         if (response.responseText) {
             let result = JSON.parse(response.responseText);
             if (result.status === 'OK') {
-                Ext.Msg.alert('E-Worker', 'Data has been successfully saved',);
-                let parent = form.up('window');
-                if (parent) {
-                    parent.destroy();
-                }
+                Ext.Msg.alert('E-Worker', 'Data has been successfully saved');
+                this.loadAccountTypes();
+                let form2  = this.lookupReference('accountTypeForm');
+                form2.getForm().reset();
             }
         }
     },

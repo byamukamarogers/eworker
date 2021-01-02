@@ -27,6 +27,11 @@ Ext.define('eworker.view.main.Main', {
         'eworker.view.User.AccountType',
         'eworker.view.Employer.Employers',
         'eworker.view.UserManagement.UserManagement',
+        'eworker.view.worker.Complaints',
+        'eworker.view.worker.ComplaintForm',
+        'eworker.view.Jobs.Job',
+        'eworker.view.jobs.JobCategory',
+        'eworker.view.Employer.EmployerRegistrationForm',
     ],
 
     controller: 'main',
@@ -52,6 +57,9 @@ Ext.define('eworker.view.main.Main', {
                         xtype: 'label',
                         bind: {
                             text: 'Welcome {fullName}'
+                        },
+                        style:{
+                            color: 'white'
                         }
                     },
                     {
@@ -59,7 +67,8 @@ Ext.define('eworker.view.main.Main', {
                         text: 'logout',
                         margin: 2,
                         handler: 'onLogoutClicked'
-                    }]
+                    }
+                ]
             }
         },
         {
@@ -87,10 +96,9 @@ Ext.define('eworker.view.main.Main', {
                             floating: false,
                             items: [
                                 { text: 'Dashboard'},
-                                { text: 'Search Worker', handler:'onSearchWorkerSelected'},
-                                { text: 'Register New Worker'},
-                                { text: 'Booking & Appointments' },
-                                { text: 'Complaints'}
+                                { text: 'Workers', handler:'onSearchWorkerSelected'},
+                                { text: 'Job Applications' },
+                                { text: 'Complaints', handler: 'onComplaintsSelect'}
                             ]
                         }
                     ]
@@ -106,11 +114,7 @@ Ext.define('eworker.view.main.Main', {
                             floating: false,
                             items: [
                                 { text: 'Dashboard', handler: 'onFrontDashboardSelected' },
-                                { text: 'Search Employer' },
-                                { text: 'Register New Employer', handler: 'onRegisterEmployer' },
-                                { text: 'Booking & Appointments', handler: 'onAppointmentSelected' },
-                                { text: 'Tarrif List', handler: 'onTariffListSelected' },
-                                { text: 'Test', handler: 'onTestSelected' }
+                                { text: 'Employers', handler: 'onEmployerListSelected' }
                             ]
                         }
                     ]
@@ -164,8 +168,8 @@ Ext.define('eworker.view.main.Main', {
                             floating: false,
                             items: [
                                 { text: 'Dashboard'},
-                                { text: 'Search Jobs', },
-                                { text: 'Register New Job' }
+                                { text: 'Jobs', handler: 'onJobSelect' },
+                                { text: 'Job Category', handler: 'onJobCategorySelect' }
                             ]
                         }
                     ]

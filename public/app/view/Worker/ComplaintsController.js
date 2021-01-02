@@ -1,24 +1,24 @@
-Ext.define('eworker.view.Jobs.JobController', {
+Ext.define('eworker.view.worker.ComplaintsController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.jobs-job',
+    alias: 'controller.worker-complaints',
     onAfterRender: async function () {
-        this.loadJobs();
+        this.loadWorkers();
     },
 
-    loadJobs: async function () {
+    loadWorkers: async function () {
         let combo = this.lookupReference('grdWorkers');
-        let response = await Ext.Ajax.request({ url: '/job', method: 'get' });
+        let response = await Ext.Ajax.request({ url: '/complaint', method: 'get' });
         if (response.responseText) {
             let records = JSON.parse(response.responseText);
-            /* for (let i = 0; i < records.length; i++) {
-                records[i].fullName = records[i].firstName + ' ' + records[i].lastName;
-            } */
+            for (let i = 0; i < records.length; i++) {
+                records[i].fullName = records[i].Worker.firstName + ' ' + records[i].Worker.lastName;
+            }
             let store = Ext.create('Ext.data.Store', { data: records });
             combo.setStore(store);
             store.load();
         }
     },
-    onEditJob: async function () {
+    onUpdateComplaint: async function () {
 
         let selection = this.lookupReference('grdWorkers').getSelection();
         if (selection.length) {
@@ -31,7 +31,7 @@ Ext.define('eworker.view.Jobs.JobController', {
                 items: [
                     {
                         header: false,
-                        xtype: 'job-post-form',
+                        xtype: 'complaint-form',
                         formData: data
                     }
                 ]
@@ -41,17 +41,17 @@ Ext.define('eworker.view.Jobs.JobController', {
             Ext.Msg.alert('Error', 'Please select a record');
         }
     },
-    onAddJob: async function () {
+    onAddComplaint: async function () {
         Ext.create('Ext.window.Window', {
             modal: true,
-            title: 'ADD NEW JOB',
+            title: 'Register Complaint',
             //width: 'fit',
             layout: 'fit',
             autoShow: true,
             items: [
                 {
                     header: false,
-                    xtype: 'job-post-form'
+                    xtype: 'complaint-form'
                 }
             ]
         })
@@ -69,7 +69,7 @@ Ext.define('eworker.view.Jobs.JobController', {
                 }
             );
         } else {
-            this.loadJobs();
+            this.loadWorkers();
         }
     }
 
