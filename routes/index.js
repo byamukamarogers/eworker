@@ -17,7 +17,6 @@ const sequelize = config.sequelize;
 //BCRYPT
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-let password = '123';
 
 /* GET home page. */
 
@@ -25,6 +24,15 @@ module.exports = function (passport) {
   //---------AUTHENTICATION ROUTES---------------------
   router.get('/', auth.authenticate, function (req, res, next) {
     res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+  });
+  router.get('/home', function (req, res, next) {
+    res.sendFile(path.join(process.cwd(), 'views', 'index.html'));
+  });
+  router.get('/registerWorker', function (req, res, next) {
+    res.sendFile(path.join(process.cwd(), 'views', 'registerWorker.html'));
+  });
+  router.get('/registerEmployer', function (req, res, next) {
+    res.sendFile(path.join(process.cwd(), 'views', 'registerEmployer.html'));
   });
 
 
@@ -55,15 +63,6 @@ module.exports = function (passport) {
   }));
 
   /* User Endpoint */
-
-
-  router.get('/login-test', async function (req, res, next) {
-    //let result = await models.User.findAll();
-    let hash = await bcrypt.hash(password, await bcrypt.genSalt(saltRounds));
-    res.send(hash);
-  });
-
-
   router.get('/users', auth.authenticate, async function (req, res, next) {
     let result = await models.User.findAll();
     res.send(result);
@@ -79,7 +78,7 @@ module.exports = function (passport) {
           data[key] = rawdata[key];
         }
       }
-      data.password = await bcrypt.hash(password, await bcrypt.genSalt(saltRounds));
+      data.password = await bcrypt.hash(rawdata.password, await bcrypt.genSalt(saltRounds));
       if (data.password) {
         result = await models.User.create(data);
         res.send({ status: 'OK', data: result });
@@ -95,7 +94,11 @@ module.exports = function (passport) {
   });
   router.post('/worker', async function (req, res, next) {
     let rawdata = req.body;
-    rawdata.createdBy = req.session.passport.user.user_id;
+    if (req.session.passport === undefined) {
+      rawdata.createdBy = null
+    } else {
+      rawdata.createdBy = req.session.passport.user.user_id
+    };
     let data = {};
     try {
       let result;
@@ -109,13 +112,18 @@ module.exports = function (passport) {
 
       } else {
         result = await models.Worker.create(data);
-        data.password = await bcrypt.hash(password, await bcrypt.genSalt(saltRounds));
+        data.password = await bcrypt.hash(rawdata.password, await bcrypt.genSalt(saltRounds));
         if (data.password) {
           data.userId = data.email
           result = await models.User.create(data);
         }
       }
-      res.send({ status: 'OK', data: result });
+      if (rawdata.createdBy === null) {
+        //redirectToLogin
+        res.sendFile(path.join(process.cwd(), 'views', 'login.html'));
+      } else {
+        res.send({ status: 'OK', data: result });
+      }
     } catch (err) {
       res.status(400).send("Sorry. Something happened on the server. Contact System Admin. ");
       console.log(err);
@@ -229,6 +237,8 @@ module.exports = function (passport) {
    * Used to load up permissions. If they are missing for a user, add all permission types with defaults 
    */
   router.get('/userpermissions', async function (req, res) {
+    let result;
+    let userid = req.query.userId;
     if (req.query.staffid) {
       let currentuser = await models.User.findOne({ where: { userId: req.session.passport.user.userId } });
       if (!currentuser) return res.send([]);
@@ -260,7 +270,14 @@ module.exports = function (passport) {
       }
       res.send(userpermissions);
     }
-
+    if (userid) {
+      result = await models.UserRole.findAll({
+        include: [{
+          model: models.UserPermission, where: { userId: userid }, required: true, left: true
+        }]
+      });
+      res.send(result);
+    }
   });
 
   router.get('/staff', async function (req, res) {
@@ -293,6 +310,17 @@ module.exports = function (passport) {
         result = await models.Staff.update(data, { where: { staffId: data.staffId } });
       } else {
         result = await models.Staff.create(data);
+        if (result) {
+          //default
+          let password = '123';
+          data.password = await bcrypt.hash(password, await bcrypt.genSalt(saltRounds));
+          if (data.password) {
+            data.userId = data.email;
+            data.accountTypeId = 1;
+            result = await models.User.create(data);
+          }
+
+        }
       }
       if (result) {
         res.send({ status: 'OK', data: result });
@@ -317,8 +345,32 @@ module.exports = function (passport) {
       if (data.complaintId) {
         result = await models.Complaint.update(data, { where: { complaintId: data.complaintId } });
       } else {
-        data.workerId = req.session.passport.user.user_id;        
+        data.workerId = req.session.passport.user.user_id;
         result = await models.Complaint.create(data);
+      }
+      if (result) {
+        res.send({ status: 'OK', data: result });
+      }
+    } catch (err) {
+      res.status(400).send("Sorry. Something happened on the server. Contact System Admin");
+      console.log(err);
+    }
+  });
+
+  router.post('/stafftype', async function (req, res) {
+    let rawdata = req.body;
+    let data = {};
+    try {
+      for (key in rawdata) {
+        if (rawdata[key] !== '') {
+          data[key] = rawdata[key];
+        }
+      }
+      let result;
+      if (data.staffTypeId) {
+        result = await models.StaffType.update(data, { where: { staffTypeId: data.staffTypeId } });
+      } else {
+        result = await models.StaffType.create(data);
       }
       if (result) {
         res.send({ status: 'OK', data: result });
@@ -350,7 +402,7 @@ module.exports = function (passport) {
       if (data.jobId) {
         result = await models.Job.update(data, { where: { jobId: data.jobId } });
       } else {
-        data.employerId = req.session.passport.user.user_id; 
+        data.employerId = req.session.passport.user.user_id;
         //data.expiryDate = rawdata.expiryDate;
         result = await models.Job.create(data);
       }
@@ -364,11 +416,70 @@ module.exports = function (passport) {
   });
 
   router.get('/job', async function (req, res) {
-    let result = await models.Job.findAll({
-      include: [models.Employer,models.JobCategory]
-    });
+    let employerId = req.query.employerId;
+    let result;
+    if (!isNaN(employerId)) {
+      result = await models.Job.findAll({
+        where: { employerId: employerId },
+        include: [models.Employer, models.JobCategory]
+      });
+    } else {
+      result = await models.Job.findAll({
+        include: [models.Employer, models.JobCategory]
+      });
+    }
     res.send(result);
   });
+
+  router.post('/jobApplication', async function (req, res) {
+    let rawdata = req.body;
+    rawdata.addedBy = req.session.passport.user.user_id;
+    let data = {};
+    try {
+      for (key in rawdata) {
+        if (rawdata[key] !== '') {
+          data[key] = rawdata[key];
+        }
+      }
+      let result;
+      if (data.jobApplicationId) {
+        result = await models.JobApplication.update(data, { where: { jobApplicationId: data.jobApplicationId } });
+      } else {
+        data.dateApplied = new Date();
+        data.workerId = req.session.passport.user.user_id;
+        result = await models.JobApplication.create(data);
+      }
+      if (result) {
+        res.send({ status: 'OK', data: result });
+      }
+    } catch (err) {
+      res.status(400).send("Sorry. Something happened on the server. Contact System Admin");
+      console.log(err);
+    }
+  });
+
+  router.get('/jobApplication', async function (req, res) {
+    let workerId = req.query.workerId;
+    let jobId = req.query.jobId;
+    let result;
+    if (!isNaN(workerId)) {
+      result = await models.JobApplication.findAll({
+        where: { workerId: workerId },
+        include: { model: models.Job, include: [models.Employer] }
+      });
+    } else if (!isNaN(jobId)) {
+      result = await models.JobApplication.findAll({
+        where: { jobId: jobId },
+        include: [models.Worker, models.Job]
+      });
+    } else {
+      result = await models.JobApplication.findAll({
+        include: [models.Worker, models.Job]
+      });
+    }
+    res.send(result);
+  });
+
   router.post('/jobcategory', async function (req, res) {
     let rawdata = req.body;
     rawdata.addedBy = req.session.passport.user.user_id;
@@ -382,7 +493,7 @@ module.exports = function (passport) {
       let result;
       if (data.jobCategoryId) {
         result = await models.JobCategory.update(data, { where: { jobCategoryId: data.jobCategoryId } });
-      } else {       
+      } else {
         result = await models.JobCategory.create(data);
       }
       if (result) {
@@ -400,8 +511,12 @@ module.exports = function (passport) {
   });
 
   router.post('/employer', async function (req, res) {
-    let rawdata = req.body;
-    rawdata.addedBy = req.session.passport.user.user_id;
+    let rawdata = req.body;    
+    if (req.session.passport === undefined) {
+      rawdata.createdBy = null
+    } else {
+      rawdata.createdBy = req.session.passport.user.user_id
+    };
     let data = {};
     try {
       for (key in rawdata) {
@@ -412,7 +527,7 @@ module.exports = function (passport) {
       let result;
       if (data.employerId) {
         result = await models.Employer.update(data, { where: { employerId: data.employerId } });
-      } else {       
+      } else {
         result = await models.Employer.create(data);
         data.password = await bcrypt.hash(password, await bcrypt.genSalt(saltRounds));
         if (data.password) {
@@ -420,8 +535,11 @@ module.exports = function (passport) {
           data.accountTypeId = 2;
           result = await models.User.create(data);
         }
-      }
-      if (result) {
+      }      
+      if (rawdata.createdBy === null) {
+        //redirectToLogin
+        res.sendFile(path.join(process.cwd(), 'views', 'login.html'));
+      } else {
         res.send({ status: 'OK', data: result });
       }
     } catch (err) {

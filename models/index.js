@@ -14,16 +14,20 @@ db.UserPermission = sequelize.import('./UserPermission');
 db.UserRole = sequelize.import('./UserRole');
 db.Complaint = sequelize.import('./Complaint');
 db.Employer = sequelize.import('./Employer');
+db.JobApplication = sequelize.import('./JobApplication');
 
 //Staff Relations
 db.Staff.belongsTo(db.StaffType, { foreignKey: 'staffTypeId', sourceKey: 'staffTypeId' });
 db.Complaint.belongsTo(db.Worker, { foreignKey: 'workerId', sourceKey: 'workerId' });
 db.UserPermission.belongsTo(db.UserRole, { foreignKey: 'roleid' });
-db.Job.belongsTo(db.Employer,{ foreignKey: 'employerId', sourceKey: 'employerId'});
-db.Job.belongsTo(db.JobCategory,{ foreignKey: 'jobCategoryId'});
+db.UserRole.hasOne(db.UserPermission, { foreignKey: 'roleId', sourceKey: 'roleId' });
+db.Job.belongsTo(db.Employer, { foreignKey: 'employerId', sourceKey: 'employerId' });
+db.Job.belongsTo(db.JobCategory, { foreignKey: 'jobCategoryId' });
 db.Staff.hasOne(db.User, { foreignKey: 'email', sourceKey: 'email' });
-db.Employer.hasOne(db.User, { foreignKey: 'email', sourceKey: 'email'});
+db.Employer.hasOne(db.User, { foreignKey: 'email', sourceKey: 'email' });
 db.Worker.hasOne(db.User, { foreignKey: 'email', sourceKey: 'email' });
+db.JobApplication.belongsTo(db.Worker, { foreignKey: 'workerId', sourceKey: 'workerId' });
+db.JobApplication.hasOne(db.Job, { foreignKey: 'jobId', sourceKey: 'jobId' });
 
 /* sequelize.sync({ alter: true })
   .then(() => {

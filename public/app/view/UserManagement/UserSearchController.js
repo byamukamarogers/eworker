@@ -54,13 +54,12 @@ Ext.define('eworker.view.UserManagement.UserSearchController', {
         }
     },
     onUserSelected: async function (sender, record, opts) {
-        this.data = record.data;
-
+        let data = record.data;
         let parent = this.getView().up('panel');
         if (parent) {
             let form = parent.lookupReference('user-summary');
-            form.getViewModel().setData(this.data);
-            form.getController().loadUserRoles(this.data.staffId);
+            form.getViewModel().setData(data);
+            form.getController().loadRoles(data.userId);
         }
     },
 

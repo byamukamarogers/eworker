@@ -3,6 +3,14 @@ Ext.define('eworker.view.Jobs.JobController', {
     alias: 'controller.jobs-job',
     onAfterRender: async function () {
         this.loadJobs();
+        if(eworker.Globals.currentUser.accountTypeId !== 3){
+            this.lookupReference("applyBtn").setDisabled(true);
+        }
+        if(eworker.Globals.currentUser.accountTypeId === 3){
+            this.lookupReference("onAddJobBtn").setHidden(true);
+            this.lookupReference("onEditJobBtn").setHidden(true);
+        }
+
     },
 
     loadJobs: async function () {
@@ -10,22 +18,23 @@ Ext.define('eworker.view.Jobs.JobController', {
         let response = await Ext.Ajax.request({ url: '/job', method: 'get' });
         if (response.responseText) {
             let records = JSON.parse(response.responseText);
-            /* for (let i = 0; i < records.length; i++) {
-                records[i].fullName = records[i].firstName + ' ' + records[i].lastName;
-            } */
+            for (let i = 0; i < records.length; i++) {
+                records[i].fullName = records[i].Employer.firstName + ' ' + records[i].Employer.lastName;
+                records[i].telephone = records[i].Employer.telephone
+            }
             let store = Ext.create('Ext.data.Store', { data: records });
             combo.setStore(store);
             store.load();
         }
     },
+    
     onEditJob: async function () {
-
         let selection = this.lookupReference('grdWorkers').getSelection();
         if (selection.length) {
             let data = selection[0].data;
             Ext.create('Ext.window.Window', {
                 modal: true,
-                title: 'Edit WORKER INFO',
+                title: 'Edit JOB INFO',
                 layout: 'fit',
                 autoShow: true,
                 items: [
@@ -56,6 +65,17 @@ Ext.define('eworker.view.Jobs.JobController', {
             ]
         })
     },
+    onApplyJob: async function () {
+        let selection = this.lookupReference('grdWorkers').getSelection();
+        if (selection.length) {
+            let data = selection[0].data;
+            console.log(data);
+            this.saveData(data);
+        } else {
+
+            Ext.Msg.alert('Error', 'Please select a record');
+        }
+    },
     onGridSearch: async function (field, evt, eOpts) {
         let searchString = field.getValue();
         let store = this.lookupReference('grdWorkers').getStore();
@@ -70,6 +90,24 @@ Ext.define('eworker.view.Jobs.JobController', {
             );
         } else {
             this.loadJobs();
+        }
+    },
+
+    saveData: async function (rawData) {
+        let form = this.getView();
+        let data = rawData;
+        let response = await Ext.Ajax.request({
+            url: '/jobApplication',
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            params: JSON.stringify(data)
+        });
+
+        if (response.responseText) {
+            let result = JSON.parse(response.responseText);
+            if (result.status === 'OK') {
+                Ext.Msg.alert('E-Worker', 'Data has been successfully saved');
+            }
         }
     }
 

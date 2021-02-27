@@ -35,7 +35,8 @@ Ext.define('eworker.view.Employer.Employers',{
                 {
                     xtype: 'button',
                     text: 'Add Employer',
-                    handler:'onAddEmployer'
+                    handler:'onAddEmployer',
+                    reference:'addEmployerBtn'
                 },
                 {
                     xtype: 'button',

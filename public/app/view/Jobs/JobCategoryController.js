@@ -19,10 +19,6 @@ Ext.define('eworker.view.jobs.JobCategoryController', {
             store.load();
         }
     },
-    onSaveClicked: async function () {
-        let data = this.getViewModel().getData();
-        this.saveData(data);
-    },
     onEditJobCategory: async function () {
 
         let selection = this.lookupReference('grdJobCategory').getSelection();
@@ -32,6 +28,10 @@ Ext.define('eworker.view.jobs.JobCategoryController', {
         } else {
             Ext.Msg.alert('Error', 'Please select a record');
         }
+    },
+    onSaveClicked: async function () {
+        let data = this.getViewModel().getData();
+        this.saveData(data);
     },
 
     cleanupData: function (rawData) {

@@ -48,7 +48,7 @@ module.exports = function (sequelize, DataTypes) {
         createdBy: {
             type: DataTypes.INTEGER,
             field: 'createdby',
-            allowNull: false
+            allowNull: true
         }
 
     },

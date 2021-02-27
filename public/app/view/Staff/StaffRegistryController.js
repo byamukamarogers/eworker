@@ -41,6 +41,7 @@ Ext.define('eworker.view.Staff.StaffRegistryController', {
         let window = Ext.create('Ext.window.Window', {
             title: 'Add New Staff Member',
             width: 400,
+            modal:true,
             id: 'container',
             closable: true,
             layout: 'fit',

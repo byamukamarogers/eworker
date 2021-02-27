@@ -3,6 +3,9 @@ Ext.define('eworker.view.Employer.EmployersController', {
     alias: 'controller.employer-employers',
     onAfterRender: async function () {
         this.loadEmployers();
+        if(eworker.Globals.currentUser.accountTypeId !== 1){
+            this.lookupReference('addEmployerBtn').setHidden(true);
+        }
     },
 
     loadEmployers: async function () {

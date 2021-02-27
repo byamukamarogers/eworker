@@ -4,11 +4,12 @@ module.exports = function (sequelize, DataTypes) {
         id: {
             type: DataTypes.INTEGER,
             field: 'userpermissionid',
-            primaryKey:true
+            primaryKey:true,
+            autoIncrement: true
         },
-        staffId: {
-            type: DataTypes.INTEGER,
-            field: 'staffid',
+        userId: {
+            type: DataTypes.STRING(50),
+            field: 'userid',
             allowNull: false
         },
        roleId: {

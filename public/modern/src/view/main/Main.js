@@ -13,8 +13,7 @@ Ext.define('eworker.view.main.Main', {
         'Ext.MessageBox',
 
         'eworker.view.main.MainController',
-        'eworker.view.main.MainModel',
-        'eworker.view.main.List'
+        'eworker.view.main.MainModel'
     ],
 
     controller: 'main',

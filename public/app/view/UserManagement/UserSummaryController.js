@@ -3,7 +3,12 @@ Ext.define('eworker.view.UserManagement.UserSummaryController', {
     alias: 'controller.usersummary',
 
     onAfterRender: async function () {
-        this.loadUserRoles();
+       // this.loadUserRoles();
+       let data = this.getViewModel().getData();
+       console.log(data);
+       if(data.userId){
+           await this.loadRoles(data.userId);
+       }
     },
 
     onOKClicked: async function () {
@@ -21,7 +26,7 @@ Ext.define('eworker.view.UserManagement.UserSummaryController', {
         if (response.responseText) {
             let results = JSON.parse(response.responseText);
             if (results.success) {
-                Ext.Msg.alert('NHIS', 'User Permissions saved successfully'); 
+                Ext.Msg.alert('E-WORKER', 'User Permissions saved successfully'); 
             }
         }
     },
@@ -42,6 +47,26 @@ Ext.define('eworker.view.UserManagement.UserSummaryController', {
                 data: records
             });
             //grd.clearValue();
+            grd.setStore(store);
+            store.load();
+        }
+    },
+
+    loadRoles: async function (userid) { 
+        let grd = this.lookupReference('grdUserPermissions');
+        let response = await Ext.Ajax.request({
+            url:`/userpermissions?userId=`+userid,
+            method: 'get'
+        });
+
+        if (response) {
+            let records = JSON.parse(response.responseText);
+            for(let i =0; i<records.length; i++){
+                records[i].write = records[i].UserPermission.write;
+                records[i].edit = records[i].UserPermission.edit;
+                records[i].readOnly = records[i].UserPermission.readOnly;
+            }
+            let store = Ext.create('Ext.data.Store', { data: records });
             grd.setStore(store);
             store.load();
         }

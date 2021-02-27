@@ -44,7 +44,7 @@ Ext.define('eworker.view.Worker.WorkersController', {
     onAddWorker: async function () {
         Ext.create('Ext.window.Window', {
             modal: true,
-            title: 'ADD NEW WORKER',
+            title: 'REGISTER NEW WORKER',
             //width: 'fit',
             layout: 'fit',
             autoShow: true,

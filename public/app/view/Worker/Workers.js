@@ -33,7 +33,7 @@ Ext.define('eworker.view.Worker.Workers', {
                 },
                 {
                     xtype: 'button',
-                    text: 'Add Worker',
+                    text: 'Register Worker',
                     handler:'onAddWorker'
                 },
                 {

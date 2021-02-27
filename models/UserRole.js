@@ -4,7 +4,8 @@ module.exports = function (sequelize, DataTypes) {
         roleId: {
             type: DataTypes.INTEGER,
             field: 'roleid',
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
        roleName: {
             type: DataTypes.STRING(100),

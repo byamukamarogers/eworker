@@ -24,3 +24,20 @@ Ext.application({
     // of merge conflicts when upgrading to new versions of Sencha Cmd.
     //-------------------------------------------------------------------------
 });
+Ext.define('eworker.Globals', {
+    singleton: true,
+    currentUser: null,
+    currency: null,
+    cleanupData: function (rawData) {
+        let data = {};
+        for (let key in rawData) {
+            let type = typeof rawData[key]
+            if (!['object'].includes(type)) {
+                data[key] = rawData[key];
+            } else if (key.includes('date')) {
+                data[key] = rawData[key]
+            }
+        }
+        return data;
+    }
+});

@@ -5,7 +5,8 @@ Ext.define('eworker.view.Jobs.Job',{
 
     requires: [
         'eworker.view.Jobs.JobController',
-        'eworker.view.Jobs.JobModel'
+        'eworker.view.Jobs.JobModel',
+        'eworker.view.Jobs.JobApplication'
     ],
 
     controller: 'jobs-job',
@@ -34,13 +35,21 @@ Ext.define('eworker.view.Jobs.Job',{
                 },
                 {
                     xtype: 'button',
+                    text: 'Apply For Job',
+                    handler:'onApplyJob',
+                    reference: 'applyBtn'
+                },
+                {
+                    xtype: 'button',
                     text: 'Add Job',
-                    handler:'onAddJob'
+                    handler:'onAddJob',
+                    reference:'onAddJobBtn'
                 },
                 {
                     xtype: 'button',
                     text: 'Edit Job Details',
-                    handler: 'onEditJob'
+                    handler: 'onEditJob',
+                    reference: 'onEditJobBtn'
                 }
             ],
             selModel: {
@@ -53,10 +62,15 @@ Ext.define('eworker.view.Jobs.Job',{
                 { text: 'Job No', dataIndex: 'jobId', flex: 0.08 },
                 { text: 'Job Name', dataIndex: 'jobName', flex: 0.15 },
                 { text: 'Description', dataIndex: 'jobDescription', flex: 0.1 },
-                { text: 'Posted By', dataIndex: 'employerId', flex: 0.2 },
+                { text: 'Posted By', dataIndex: 'fullName', flex: 0.2 },
                 { text: 'Telephone', dataIndex: 'telephone', flex: 0.1 },
-                { text: 'DeadLine', dataIndex: 'expiryDate', xtype: 'datecolumn',   format:'Y-m-d g:i A', flex: 0.2 }
+                { text: 'DeadLine', dataIndex: 'expiryDate', xtype: 'datecolumn', format:'Y-m-d g:i A', flex: 0.2 }
             ],
+            listeners: {
+                select: function( record, index, eOpts ){
+                    (record.selected.items[0].data.employerId !== eworker.Globals.currentUser.user_id)? this.up().lookupReference("onEditJobBtn").setDisabled(true):null;
+                }
+            },
             plugins: [
                 {
                     ptype: 'rowexpander',

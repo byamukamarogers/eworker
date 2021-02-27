@@ -32,6 +32,10 @@ Ext.define('eworker.view.main.Main', {
         'eworker.view.Jobs.Job',
         'eworker.view.jobs.JobCategory',
         'eworker.view.Employer.EmployerRegistrationForm',
+        'eworker.view.Jobs.Applications',
+        'eworker.view.Staff.StaffType',
+        'eworker.view.Worker.Dashboard',
+        'eworker.view.Worker.MyJobApplications',
     ],
 
     controller: 'main',
@@ -87,6 +91,7 @@ Ext.define('eworker.view.main.Main', {
             items: [
                 {
                     title: 'Workers',
+                    reference:'workerMenu',
                     iconCls: 'fa fa-pencil-square-o',
                     height: 200,
                     scrollable: 'y',
@@ -95,9 +100,9 @@ Ext.define('eworker.view.main.Main', {
                             xtype: 'menu',
                             floating: false,
                             items: [
-                                { text: 'Dashboard'},
-                                { text: 'Workers', handler:'onSearchWorkerSelected'},
-                                { text: 'Job Applications' },
+                                { text: 'Profile', handler: 'onProfileClick', reference: 'workerProfileMenu'},
+                                { text: 'Workers', handler:'onSearchWorkerSelected', reference: 'workersMenu'},
+                                { text: 'Job Applications', handler: 'onMyJobApplicationsSelect' },
                                 { text: 'Complaints', handler: 'onComplaintsSelect'}
                             ]
                         }
@@ -105,6 +110,7 @@ Ext.define('eworker.view.main.Main', {
                 },
                 {
                     title: 'Employers',
+                    reference:'employerMenu',
                     iconCls: 'fa fa-pencil-square-o',
                     height: 200,
                     scrollable: 'y',
@@ -120,7 +126,8 @@ Ext.define('eworker.view.main.Main', {
                     ]
                 },
                 {
-                    title: 'Employers-phantom',
+                    title: 'Staff',
+                    reference:'staffMenu',
                     iconCls: 'fa fa-pencil-square-o',
                     height: 200,
                     scrollable: 'y',
@@ -130,17 +137,33 @@ Ext.define('eworker.view.main.Main', {
                             floating: false,
                             items: [
                                 { text: 'Dashboard', handler: 'onFrontDashboardSelected' },
-                                { text: 'Search & Add visit', handler: 'onSearchClient' },
-                                { text: 'Register New Client', handler: 'onRegisterClient' },
-                                { text: 'Booking & Appointments', handler: 'onAppointmentSelected' },
-                                { text: 'Tarrif List', handler: 'onTariffListSelected' },
-                                { text: 'Test', handler: 'onTestSelected' }
+                                { text: 'Staff', handler: 'onViewStaffSelect' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    title: 'Jobs',
+                    reference:'jobsMenu',
+                    iconCls: 'fa fa-pencil-square-o',
+                    height: 200,
+                    scrollable: 'y',
+                    items: [
+                        {
+                            xtype: 'menu',
+                            floating: false,
+                            items: [
+                                { text: 'Dashboard'},
+                                { text: 'Jobs', handler: 'onJobSelect' },
+                                { text: 'Job Applications', handler: 'onJobApplicationsSelect', reference: 'jobMenu' },
+                                { text: 'Job Category', handler: 'onJobCategorySelect', reference:'jobCategoryMenu' }
                             ]
                         }
                     ]
                 },
                 {
                     title: 'Adminstration',
+                    reference:'adminMenu',
                     iconCls: 'fa fa-pencil-square-o',
                     height: 200,
                     scrollable: 'y',
@@ -152,30 +175,13 @@ Ext.define('eworker.view.main.Main', {
                                 { text: 'Dashboard' },
                                 { text: 'Staff', iconCls: 'x-fa fa-users', handler: 'onStaffSelected' },
                                 { text: 'User Search', iconCls: 'x-fa fa-find', handler: 'onSearchUserSelected' },
-                                { text: 'AccountType', iconCls: 'x-fa fa-list', handler: 'onAccountTypeSelected' }
+                                { text: 'AccountType', iconCls: 'x-fa fa-list', handler: 'onAccountTypeSelected' },
+                                { text: 'Staff Type', iconCls: 'x-fa fa-list', handler: 'onStaffTypeSelect' }
                             ]
                         }
                     ]
-                },
-                {
-                    title: 'Jobs',
-                    iconCls: 'fa fa-pencil-square-o',
-                    height: 200,
-                    scrollable: 'y',
-                    items: [
-                        {
-                            xtype: 'menu',
-                            floating: false,
-                            items: [
-                                { text: 'Dashboard'},
-                                { text: 'Jobs', handler: 'onJobSelect' },
-                                { text: 'Job Category', handler: 'onJobCategorySelect' }
-                            ]
-                        }
-                    ]
-                },
+                }   
             ]
-
         },
         {
             //the response body
