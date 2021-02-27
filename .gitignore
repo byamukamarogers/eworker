@@ -6,5 +6,5 @@ public/ext/
 public/sass/
 public/bootstrap.*
 public/classic.*
-public/modern.*
+public.*
 package-lock.json
