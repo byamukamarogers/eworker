@@ -20,7 +20,8 @@ module.exports = function (sequelize, DataTypes) {
         },
         nationality: {
             type: DataTypes.STRING(100),
-            field: 'nationality'
+            field: 'nationality',
+            defaultValue: 'UGA'
         },
         nationalIdNo: {
             type: DataTypes.STRING(100),
@@ -38,6 +39,27 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING(50),
             field: 'email',
             unique: true
+        },
+        
+        nextOfKin: {
+            type: DataTypes.STRING(50),
+            field: 'nextofkin'
+        },        
+        nextOfKinContact: {
+            type: DataTypes.STRING(50),
+            field: 'nextofkinphone'
+        },
+        parentName: {
+            type: DataTypes.STRING(50),
+            field: 'parentname'
+        },
+        parentPhoneNumber: {
+            type: DataTypes.STRING(50),
+            field: 'parentphonenumber'
+        },
+        maritalStatus: {
+            type: DataTypes.STRING(30),
+            field:'maritalstatus'
         },
         addedBy: {
             type: DataTypes.INTEGER,

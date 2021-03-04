@@ -38,6 +38,20 @@ module.exports = function (sequelize, DataTypes) {
             unique: true,
             allowNull: false
         },
+        nationality: {
+            type: DataTypes.STRING(50),
+            field: 'nationality',
+            defaultValue: 'UGA',
+            allowNull: false
+        },
+        NIN: {
+            type: DataTypes.STRING(50),
+            field: 'nin'
+        },
+        maritalStatus: {
+            type: DataTypes.STRING(50),
+            field: 'maritalstatus'
+        },
         addedBy: {
             type: DataTypes.INTEGER,
             field: 'addedby',

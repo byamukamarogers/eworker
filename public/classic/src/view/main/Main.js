@@ -30,7 +30,7 @@ Ext.define('eworker.view.main.Main', {
         'eworker.view.worker.Complaints',
         'eworker.view.worker.ComplaintForm',
         'eworker.view.Jobs.Job',
-        'eworker.view.jobs.JobCategory',
+        'eworker.view.jobs.JobType',
         'eworker.view.Employer.EmployerRegistrationForm',
         'eworker.view.Jobs.Applications',
         'eworker.view.Staff.StaffType',
@@ -156,7 +156,7 @@ Ext.define('eworker.view.main.Main', {
                                 { text: 'Dashboard'},
                                 { text: 'Jobs', handler: 'onJobSelect' },
                                 { text: 'Job Applications', handler: 'onJobApplicationsSelect', reference: 'jobMenu' },
-                                { text: 'Job Category', handler: 'onJobCategorySelect', reference:'jobCategoryMenu' }
+                                { text: 'Job Type', handler: 'onJobTypeSelect', reference:'JobTypeMenu' }
                             ]
                         }
                     ]

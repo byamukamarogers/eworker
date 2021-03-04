@@ -1,15 +1,15 @@
 
-Ext.define('eworker.view.jobs.JobCategory',{
+Ext.define('eworker.view.jobs.JobType',{
     extend: 'Ext.panel.Panel',
-    xtype: 'jobcategory',
+    xtype: 'JobType',
     requires: [
-        'eworker.view.jobs.JobCategoryController',
-        'eworker.view.jobs.JobCategoryModel'
+        'eworker.view.jobs.JobTypeController',
+        'eworker.view.jobs.JobTypeModel'
     ],
 
-    controller: 'jobs-jobcategory',
+    controller: 'jobs-JobType',
     viewModel: {
-        type: 'jobs-jobcategory'
+        type: 'jobs-JobType'
     },
     listeners: {
         afterrender: 'onAfterRender'
@@ -21,24 +21,24 @@ Ext.define('eworker.view.jobs.JobCategory',{
             width: '40%',
             margin: '0 5 0 0',
             bodyPadding: 10,
-            title: 'JOB CATEGORY FORM',
-            reference: 'jobCategoryForm',
+            title: 'Job Type FORM',
+            reference: 'JobTypeForm',
             frame: true,
             items: [
                 {
                     xtype: 'numberfield',
                     anchor: '100%',
                     labelAlign:'top',
-                    fieldLabel: 'Job Category Id',
-                    bind: '{jobCategoryId}',
+                    fieldLabel: 'Job Type Id',
+                    bind: '{JobTypeId}',
                     readOnly: true,
                     disabled: true
                 },
                 {
                     xtype: 'numberfield',
                     anchor: '100%',
-                    fieldLabel: 'Job Category Id',
-                    bind: '{jobCategoryId}',
+                    fieldLabel: 'Job Type Id',
+                    bind: '{JobTypeId}',
                     readOnly: true,
                     hidden: true
                 },
@@ -46,16 +46,36 @@ Ext.define('eworker.view.jobs.JobCategory',{
                     xtype: 'textarea',
                     labelAlign: 'top',
                     anchor: '100%',
-                    fieldLabel: 'Job Category Name',
-                    bind: '{jobCategoryName}',
+                    fieldLabel: 'Job Type Name',
+                    bind: '{JobTypeName}',
                     allowBlank: false
+                },
+                {
+                    xtype: 'numberfield',
+                    labelAlign: 'top',
+                    anchor: '100%',
+                    fieldLabel: 'Minimum Salary',
+                    bind: '{minSalary}',
+                    allowBlank: false,
+                    minValue: 0,
+                    hideTrigger: true
+                },
+                {
+                    xtype: 'numberfield',
+                    labelAlign: 'top',
+                    anchor: '100%',
+                    fieldLabel: 'Maximum Salary',
+                    bind: '{maxSalary}',
+                    allowBlank: false,
+                    minValue: 0,
+                    hideTrigger: true
                 },
                 {
                     xtype: 'textarea',
                     labelAlign: 'top',
                     anchor: '100%',
                     fieldLabel: 'Description',
-                    bind: '{jobCategoryDescription}',
+                    bind: '{JobTypeDescription}',
                     allowBlank: false
                 }
             ],
@@ -79,8 +99,8 @@ Ext.define('eworker.view.jobs.JobCategory',{
         },
         {
             xtype: 'grid',
-            reference: 'grdJobCategory',
-            title: 'Job Categories List',
+            reference: 'grdJobType',
+            title: 'Job Type List',
             height: 600,
             width: '60%',
             tbar: [
@@ -95,7 +115,7 @@ Ext.define('eworker.view.jobs.JobCategory',{
                 {
                     xtype: 'button',
                     text: 'Edit',
-                    handler: 'onEditJobCategory'
+                    handler: 'onEditJobType'
                 }
             ],
             selModel: {
@@ -105,16 +125,17 @@ Ext.define('eworker.view.jobs.JobCategory',{
                 selType: 'checkboxmodel',
             },
             columns: [
-                { text: 'No', dataIndex: 'jobCategoryId', flex: 0.08 },
-                { text: 'Job Category Name', dataIndex: 'jobCategoryName', flex: 0.3 },
-                { text: 'Description', dataIndex: 'jobCategoryDescription', flex: 0.5 },
+                { text: 'No', dataIndex: 'JobTypeId', flex: 0.08, hidden: true },
+                { text: 'Job Type Name', dataIndex: 'JobTypeName', flex: 0.3 },
+                { text: 'Min Salary', dataIndex: 'minSalary', flex: 0.25 },
+                { text: 'Max Salary', dataIndex: 'maxSalary', flex: 0.25 },
                 ],
             plugins: [
                 {
                     ptype: 'rowexpander',
                     rowBodyTpl: [
-                        '<b>Description :</b> {jobCategoryDescription} </br>',
-                        '<b>Category :</b> {jobCategoryName}'
+                        '<b>Description :</b> {JobTypeDescription} </br>',
+                        '<b>Category :</b> {JobTypeName}'
                     ]
                 }
             ]

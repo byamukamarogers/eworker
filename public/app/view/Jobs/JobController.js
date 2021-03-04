@@ -18,6 +18,7 @@ Ext.define('eworker.view.Jobs.JobController', {
         let response = await Ext.Ajax.request({ url: '/job', method: 'get' });
         if (response.responseText) {
             let records = JSON.parse(response.responseText);
+            console.log(records)
             for (let i = 0; i < records.length; i++) {
                 records[i].fullName = records[i].Employer.firstName + ' ' + records[i].Employer.lastName;
                 records[i].telephone = records[i].Employer.telephone

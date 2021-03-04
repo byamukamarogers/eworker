@@ -1,6 +1,6 @@
-Ext.define('eworker.view.jobs.JobCategoryModel', {
+Ext.define('eworker.view.jobs.JobTypeModel', {
     extend: 'Ext.app.ViewModel',
-    alias: 'viewmodel.jobs-jobcategory',
+    alias: 'viewmodel.jobs-JobType',
     data: {
         name: 'eworker'
     }

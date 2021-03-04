@@ -29,13 +29,13 @@ Ext.define('eworker.view.main.MainController', {
             this.lookupReference("staffMenu").setHidden(true);
             this.lookupReference("workerMenu").setHidden(true);
             this.lookupReference("adminMenu").setHidden(true);
-            this.lookupReference("jobCategoryMenu").setHidden(true);
+            this.lookupReference("JobTypeMenu").setHidden(true);
             this.lookupReference("workerProfileMenu").setHidden(true);
         }else{
             this.lookupReference("staffMenu").setHidden(true);
             this.lookupReference("employerMenu").setHidden(true);
             this.lookupReference("adminMenu").setHidden(true);
-            this.lookupReference("jobCategoryMenu").setHidden(true);
+            this.lookupReference("JobTypeMenu").setHidden(true);
             this.lookupReference("workersMenu").setHidden(true);
             this.lookupReference("jobMenu").setHidden(true);
         }
@@ -100,10 +100,10 @@ Ext.define('eworker.view.main.MainController', {
             xtype: 'jobs-list', autoShow: true
         });
     },
-    onJobCategorySelect: function () {
+    onJobTypeSelect: function () {
         Ext.ComponentQuery.query('#centerPanel')[0].removeAll(true);
         Ext.ComponentQuery.query('#centerPanel')[0].add({
-            xtype: 'jobcategory', autoShow: true
+            xtype: 'JobType', autoShow: true
         });
     },
     onJobApplicationsSelect: function () {

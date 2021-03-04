@@ -43,12 +43,12 @@ Ext.define('eworker.view.Jobs.JobApplication',{
                 {
                     xtype: 'combobox',
                     labelAlign: 'top',
-                    fieldLabel: 'Job Category',
+                    fieldLabel: 'Job Type',
                     anchor: '100%',
-                    bind: '{jobCategoryId}',
-                    reference: 'cmbJobCategory',
-                    displayField: 'jobCategoryName',
-                    valueField: 'jobCategoryId',
+                    bind: '{JobTypeId}',
+                    reference: 'cmbJobType',
+                    displayField: 'JobTypeName',
+                    valueField: 'JobTypeId',
                     edtable: false,
                     forceSelection: true,
                     allowBlank: false

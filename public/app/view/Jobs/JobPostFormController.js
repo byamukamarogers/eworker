@@ -6,11 +6,11 @@ Ext.define('eworker.view.Jobs.JobPostFormController', {
         if (data) {
             this.getViewModel().setData(data);
         }
-        await this.loadJobCategory();
+        await this.loadJobType();
     },
-    loadJobCategory: async function(){
-        let combo = this.lookupReference('cmbJobCategory');
-        let response = await Ext.Ajax.request({ url: '/jobcategory', method: 'get' });
+    loadJobType: async function(){
+        let combo = this.lookupReference('cmbJobType');
+        let response = await Ext.Ajax.request({ url: '/JobType', method: 'get' });
         if (response.responseText) {
             let records = JSON.parse(response.responseText);
             let store = Ext.create('Ext.data.Store', { data: records });

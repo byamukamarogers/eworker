@@ -1,17 +1,17 @@
-Ext.define('eworker.view.jobs.JobCategoryController', {
+Ext.define('eworker.view.jobs.JobTypeController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.jobs-jobcategory',
+    alias: 'controller.jobs-JobType',
     onAfterRender: async function () {
         let data = this.getView().formData;
         if (data) {
             this.getViewModel().setData(data);
             this.lookupReference('complaint').setValue(data.complaint);
         }
-        await this.loadJobCategory();
+        await this.loadJobType();
     },
-    loadJobCategory: async function () {
-        let combo = this.lookupReference('grdJobCategory');
-        let response = await Ext.Ajax.request({ url: '/jobcategory', method: 'get' });
+    loadJobType: async function () {
+        let combo = this.lookupReference('grdJobType');
+        let response = await Ext.Ajax.request({ url: '/JobType', method: 'get' });
         if (response.responseText) {
             let records = JSON.parse(response.responseText);
             let store = Ext.create('Ext.data.Store', { data: records });
@@ -19,9 +19,9 @@ Ext.define('eworker.view.jobs.JobCategoryController', {
             store.load();
         }
     },
-    onEditJobCategory: async function () {
+    onEditJobType: async function () {
 
-        let selection = this.lookupReference('grdJobCategory').getSelection();
+        let selection = this.lookupReference('grdJobType').getSelection();
         if (selection.length) {
             let data = selection[0].data;
             this.getViewModel().setData(data);
@@ -50,7 +50,7 @@ Ext.define('eworker.view.jobs.JobCategoryController', {
         let data = this.cleanupData(rawData);
         console.log(data)
         let response = await Ext.Ajax.request({
-            url: '/jobcategory',
+            url: '/JobType',
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             params: JSON.stringify(data)
@@ -60,8 +60,8 @@ Ext.define('eworker.view.jobs.JobCategoryController', {
             let result = JSON.parse(response.responseText);
             if (result.status === 'OK') {
                 Ext.Msg.alert('E-Worker', 'Data has been successfully saved');
-                this.loadJobCategory();
-                let parent = this.lookupReference('jobCategoryForm').getForm().reset();
+                this.loadJobType();
+                let parent = this.lookupReference('JobTypeForm').getForm().reset();
             }
         }
     }

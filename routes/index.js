@@ -37,7 +37,7 @@ module.exports = function (passport) {
 
 
   router.get('/login', function (req, res, next) {
-    res.sendFile(path.join(process.cwd(), 'views', 'login.html'));
+    res.sendFile(path.join(process.cwd(), 'views', 'login-main.html'));
   });
 
   router.post('/login', passport.authenticate('local', {
@@ -421,11 +421,11 @@ module.exports = function (passport) {
     if (!isNaN(employerId)) {
       result = await models.Job.findAll({
         where: { employerId: employerId },
-        include: [models.Employer, models.JobCategory]
+        include: [models.Employer, models.JobType]
       });
     } else {
       result = await models.Job.findAll({
-        include: [models.Employer, models.JobCategory]
+        include: [models.Employer, models.JobType]
       });
     }
     res.send(result);
@@ -480,7 +480,7 @@ module.exports = function (passport) {
     res.send(result);
   });
 
-  router.post('/jobcategory', async function (req, res) {
+  router.post('/JobType', async function (req, res) {
     let rawdata = req.body;
     rawdata.addedBy = req.session.passport.user.user_id;
     let data = {};
@@ -491,10 +491,10 @@ module.exports = function (passport) {
         }
       }
       let result;
-      if (data.jobCategoryId) {
-        result = await models.JobCategory.update(data, { where: { jobCategoryId: data.jobCategoryId } });
+      if (data.JobTypeId) {
+        result = await models.JobType.update(data, { where: { JobTypeId: data.JobTypeId } });
       } else {
-        result = await models.JobCategory.create(data);
+        result = await models.JobType.create(data);
       }
       if (result) {
         res.send({ status: 'OK', data: result });
@@ -505,14 +505,14 @@ module.exports = function (passport) {
     }
   });
 
-  router.get('/jobcategory', async function (req, res) {
-    let result = await models.JobCategory.findAll();
+  router.get('/JobType', async function (req, res) {
+    let result = await models.JobType.findAll();
     res.send(result);
   });
 
   router.post('/employer', async function (req, res) {
-    let rawdata = req.body;    
-    if (req.session.passport === undefined) {
+    let rawdata = req.body;
+    if (req.session.passport === undefined){
       rawdata.createdBy = null
     } else {
       rawdata.createdBy = req.session.passport.user.user_id
@@ -529,7 +529,7 @@ module.exports = function (passport) {
         result = await models.Employer.update(data, { where: { employerId: data.employerId } });
       } else {
         result = await models.Employer.create(data);
-        data.password = await bcrypt.hash(password, await bcrypt.genSalt(saltRounds));
+        data.password = await bcrypt.hash(rawdata.password, await bcrypt.genSalt(saltRounds));
         if (data.password) {
           data.userId = data.email;
           data.accountTypeId = 2;

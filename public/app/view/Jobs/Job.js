@@ -77,7 +77,7 @@ Ext.define('eworker.view.Jobs.Job',{
                     rowBodyTpl: [
                         '<b>Approved :</b> {isApproved} </br>',
                         '<b>Job Description :</b> {jobDescription} </br>',
-                        '<b>Job Category :</b> {JobCategory.jobCategoryName} </br>',
+                        '<b>Job Type :</b> {JobType.JobTypeName} </br>',
                         '<b>Contact Email :</b> {email} </br>',
                         '<b>Date Posted :</b> {datePosted}'
                     ]

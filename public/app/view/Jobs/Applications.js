@@ -45,7 +45,7 @@ Ext.define('eworker.view.Jobs.Applications', {
                     rowBodyTpl: [
                         '<b>Approved :</b> {isApproved} </br>',
                         '<b>Job Description :</b> {jobDescription} </br>',
-                        '<b>Job Category :</b> {JobCategory.jobCategoryName} </br>',
+                        '<b>Job Type :</b> {JobType.JobTypeName} </br>',
                         '<b>Posted By :</b> {fullName} </br>',
                         '<b>Phone :</b> {telephone} </br>',
                         '<b>Email :</b> {email} </br>',
