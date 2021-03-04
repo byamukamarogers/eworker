@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/', indexRouter(passport));
 app.use('/users', usersRouter(passport));
-app.use(express.static(path.join(__dirname, 'eworker')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 
 
