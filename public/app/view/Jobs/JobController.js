@@ -3,10 +3,10 @@ Ext.define('eworker.view.Jobs.JobController', {
     alias: 'controller.jobs-job',
     onAfterRender: async function () {
         this.loadJobs();
-        if(eworker.Globals.currentUser.accountTypeId !== 3){
+        if (eworker.Globals.currentUser.accountTypeId !== 3) {
             this.lookupReference("applyBtn").setDisabled(true);
         }
-        if(eworker.Globals.currentUser.accountTypeId === 3){
+        if (eworker.Globals.currentUser.accountTypeId === 3) {
             this.lookupReference("onAddJobBtn").setHidden(true);
             this.lookupReference("onEditJobBtn").setHidden(true);
         }
@@ -18,17 +18,20 @@ Ext.define('eworker.view.Jobs.JobController', {
         let response = await Ext.Ajax.request({ url: '/job', method: 'get' });
         if (response.responseText) {
             let records = JSON.parse(response.responseText);
-            console.log(records)
             for (let i = 0; i < records.length; i++) {
                 records[i].fullName = records[i].Employer.firstName + ' ' + records[i].Employer.lastName;
                 records[i].telephone = records[i].Employer.telephone
+                records[i].empAddress = records[i].Employer.address
+                records[i].minSalary = records[i].JobType.minSalary
+                records[i].maxSalary = records[i].JobType.maxSalary
+                records[i].expiryDate = new Date(records[i].expiryDate);
             }
             let store = Ext.create('Ext.data.Store', { data: records });
             combo.setStore(store);
             store.load();
         }
     },
-    
+
     onEditJob: async function () {
         let selection = this.lookupReference('grdWorkers').getSelection();
         if (selection.length) {
@@ -65,6 +68,31 @@ Ext.define('eworker.view.Jobs.JobController', {
                 }
             ]
         })
+    },
+    onViewJobDetail: async function () {
+
+        let selection = this.lookupReference('grdWorkers').getSelection();
+        if (selection.length) {
+            let data = selection[0].data;
+            console.log(data);
+            Ext.create('Ext.window.Window', {
+                modal: true,
+                title: 'JOB DETAILS',
+                width: '70%',
+                autoShow: true,
+                items: [
+                    {
+                        header: false,
+                        xtype: 'jobDetails',
+                        formData: data
+                    }
+                ]
+            })
+
+        } else {
+
+            Ext.Msg.alert('Error', 'Please select a record');
+        }
     },
     onApplyJob: async function () {
         let selection = this.lookupReference('grdWorkers').getSelection();

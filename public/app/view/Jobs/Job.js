@@ -6,7 +6,8 @@ Ext.define('eworker.view.Jobs.Job',{
     requires: [
         'eworker.view.Jobs.JobController',
         'eworker.view.Jobs.JobModel',
-        'eworker.view.Jobs.JobApplication'
+        'eworker.view.Jobs.JobApplication',
+        'eworker.view.jobs.jobDetails'
     ],
 
     controller: 'jobs-job',
@@ -50,6 +51,12 @@ Ext.define('eworker.view.Jobs.Job',{
                     text: 'Edit Job Details',
                     handler: 'onEditJob',
                     reference: 'onEditJobBtn'
+                },
+                {
+                    xtype: 'button',
+                    text: 'View Job Details',
+                    handler: 'onViewJobDetail',
+                    reference: 'ViewJobDetail'
                 }
             ],
             selModel: {
