@@ -23,7 +23,7 @@ const saltRounds = 10;
 module.exports = function (passport) {
   //---------AUTHENTICATION ROUTES---------------------
   router.get('/', auth.authenticate, function (req, res, next) {
-    res.sendFile(path.join(process.cwd(), 'eworker', 'index.html'));
+    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
   });
   router.get('/home', function (req, res, next) {
     res.sendFile(path.join(process.cwd(), 'views', 'index.html'));
@@ -511,8 +511,8 @@ module.exports = function (passport) {
   });
 
   router.post('/employer', async function (req, res) {
-    let rawdata = req.body;
-    if (req.session.passport === undefined){
+    let rawdata = req.body;    
+    if (req.session.passport === undefined) {
       rawdata.createdBy = null
     } else {
       rawdata.createdBy = req.session.passport.user.user_id
@@ -529,7 +529,7 @@ module.exports = function (passport) {
         result = await models.Employer.update(data, { where: { employerId: data.employerId } });
       } else {
         result = await models.Employer.create(data);
-        data.password = await bcrypt.hash(rawdata.password, await bcrypt.genSalt(saltRounds));
+        data.password = await bcrypt.hash(password, await bcrypt.genSalt(saltRounds));
         if (data.password) {
           data.userId = data.email;
           data.accountTypeId = 2;

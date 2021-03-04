@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2021 at 10:54 AM
+-- Generation Time: Jan 29, 2021 at 09:44 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -66,11 +66,11 @@ CREATE TABLE `complaints` (
 --
 
 INSERT INTO `complaints` (`complaintid`, `workerid`, `complaints`, `addedby`, `daterecorded`, `created_at`, `updated_at`) VALUES
-(2, 6, 'Long Hours of work', 6, '2021-01-01', '2021-01-01 15:25:43', '2021-01-01 15:25:43'),
-(3, 7, 'Mistreatment by boss\' kids', 6, '2021-01-01', '2021-01-01 16:23:09', '2021-02-22 08:11:49'),
-(4, 6, 'Sexual Harassment', 6, '2021-01-01', '2021-01-01 16:25:47', '2021-02-22 08:12:02'),
-(5, 5, 'Overworking', 6, '2021-01-01', '2021-01-01 16:28:08', '2021-01-02 07:09:41'),
-(6, 6, 'Less pay', 6, '2021-01-01', '2021-01-01 17:39:07', '2021-01-01 18:01:34');
+(2, 6, 'complaint', 6, '2021-01-01', '2021-01-01 15:25:43', '2021-01-01 15:25:43'),
+(3, 6, '', 6, '2021-01-01', '2021-01-01 16:23:09', '2021-01-01 16:23:09'),
+(4, 6, '', 6, '2021-01-01', '2021-01-01 16:25:47', '2021-01-01 16:25:47'),
+(5, 6, 'utfygkhjl', 6, '2021-01-01', '2021-01-01 16:28:08', '2021-01-02 07:09:41'),
+(6, 6, '<div style=\"text-align: center;\"><b><font face=\"times new roman\" size=\"7\" color=\"#ff0000\"><u><i style=\"background-color: rgb(192, 192, 192);\">xhcgv</i></u></font></b></div>', 6, '2021-01-01', '2021-01-01 17:39:07', '2021-01-01 18:01:34');
 
 -- --------------------------------------------------------
 
@@ -96,9 +96,7 @@ CREATE TABLE `employers` (
 --
 
 INSERT INTO `employers` (`employerid`, `firstname`, `lastname`, `telephone`, `address`, `accounttypeid`, `email`, `addedby`, `created_at`, `updated_at`) VALUES
-(1, 'Namugwanya', 'Rose', '0785990821', 'kabale - kisoro', 2, 'rose@gmail.com', 1, '2021-01-02 09:48:08', '2021-01-02 10:21:36'),
-(2, 'BYAMUKAMA', 'ROGERS', '+256751736273', 'Najjera ii', 2, 'brogers@gmail.com', NULL, '2021-02-27 07:06:19', '2021-02-27 09:39:00'),
-(9, 'Ivan', 'Omagoro', '+256414123456', 'Kireka-kamuli road', 2, 'ivanomax@gmail.com', NULL, '2021-02-27 08:45:55', '2021-02-27 08:45:55');
+(1, 'happy', 'legacy', '0785990821', 'kabale - kisoro', 2, 'rose@gmail.com', 1, '2021-01-02 09:48:08', '2021-01-02 10:21:36');
 
 -- --------------------------------------------------------
 
@@ -121,9 +119,7 @@ CREATE TABLE `jobapplications` (
 --
 
 INSERT INTO `jobapplications` (`jobapplicationid`, `jobid`, `workerid`, `isapproved`, `dateposted`, `created_at`, `updated_at`) VALUES
-(1, 1, 6, 0, '2021-01-05 05:52:44', '2021-01-02 10:35:27', '2021-01-05 05:52:44'),
-(2, 1, 4, 0, '2021-02-22 07:20:34', '2021-01-02 10:35:27', '2021-02-22 07:20:34'),
-(3, 1, 6, 0, '2021-02-22 09:34:54', '2021-01-02 10:35:27', '2021-02-22 09:34:54');
+(1, 1, 6, 0, '2021-01-05 05:52:44', '2021-01-02 10:35:27', '2021-01-05 05:52:44');
 
 -- --------------------------------------------------------
 
@@ -145,9 +141,9 @@ CREATE TABLE `jobcategory` (
 
 INSERT INTO `jobcategory` (`jobcategoryid`, `jobcategoryname`, `jobcategorydescription`, `created_at`, `updated_at`) VALUES
 (1, 'Done ', 'Sample', '2021-01-02 08:58:02', '2021-01-02 09:01:47'),
-(2, 'Home - Office', 'Home office work', '2021-01-02 08:59:28', '2021-01-02 09:01:03'),
-(3, 'House Work', 'These include baby siting, washing, etc', '2021-01-02 09:02:49', '2021-01-02 09:02:49'),
-(4, 'Field', 'These types of worker include digging, slashing, plantationsetc', '2021-01-02 09:04:31', '2021-01-02 09:04:31');
+(2, 'Sample', 'Sample', '2021-01-02 08:59:28', '2021-01-02 09:01:03'),
+(3, 'New', 'New', '2021-01-02 09:02:49', '2021-01-02 09:02:49'),
+(4, 'last Try', 'Last Tru', '2021-01-02 09:04:31', '2021-01-02 09:04:31');
 
 -- --------------------------------------------------------
 
@@ -174,8 +170,7 @@ CREATE TABLE `jobs` (
 --
 
 INSERT INTO `jobs` (`jobid`, `jobname`, `jobdescription`, `jobcategoryid`, `employerid`, `isapproved`, `staffid`, `dateposted`, `expirydate`, `created_at`, `updated_at`) VALUES
-(1, 'House Maid', 'Will be responsible for all house chores while we are at work. The selected candidate will rest will be relieved off duty after we return home.', 3, 1, 0, NULL, '2021-01-02 09:46:21', '2021-01-14 21:00:00', '2021-01-02 10:35:27', '2021-02-27 08:41:25'),
-(2, 'House Maid (2)', 'Will be responsible for all house chores while we are at work. The selected candidate will rest will be relieved off duty after we return home.', 3, 9, 0, NULL, '2021-01-02 09:46:21', '2021-01-14 21:00:00', '2021-01-02 10:35:27', '2021-02-27 08:41:25');
+(1, 'sdfsd', 'dfgfd', 3, 1, 0, NULL, '2021-01-02 09:46:21', '2021-01-14 21:00:00', '2021-01-02 10:35:27', '2021-01-02 11:05:26');
 
 -- --------------------------------------------------------
 
@@ -203,9 +198,9 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`staffid`, `firstname`, `lastname`, `email`, `gender`, `address`, `phone1`, `phone2`, `stafftypeid`, `createdby`, `created_at`, `updated_at`) VALUES
-(1, 'John', 'Doe', 'johndoe@gmail.com', 'MALE', 'Recent', '+256414123', NULL, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'Namugwanya', 'Rose', 'rosenamugwanya1@gmail.com', 'FEMALE', 'unknown', '0785990821', NULL, 2, 1, '2021-01-05 06:38:57', '2021-01-05 06:38:57'),
-(4, 'Namugwanya', 'Rose', 'namugwanya1@gmail.com', 'FEMALE', 'Entebbe', '0785990821', NULL, 2, 1, '2021-01-05 06:44:20', '2021-01-05 06:44:20');
+(1, 'John', 'Doe', 'johndoe@gmail.com', 'M', 'Recent', '+256414123', NULL, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'happy', 'legacy', 'rosenamugwanya1@gmail.com', 'FEMALE', 'unknown', '0785990821', NULL, 2, 1, '2021-01-05 06:38:57', '2021-01-05 06:38:57'),
+(4, 'happy', 'legacy', 'namugwanya1@gmail.com', 'FEMALE', NULL, '0785990821', NULL, 2, 1, '2021-01-05 06:44:20', '2021-01-05 06:44:20');
 
 -- --------------------------------------------------------
 
@@ -299,12 +294,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`userid`, `firstname`, `lastname`, `telephone`, `address`, `accounttypeid`, `email`, `password`, `addedby`, `created_at`, `updated_at`) VALUES
 ('athan@gmail.com', 'atukwatse', 'athan', '0774525237', 'Rukungiri', 3, 'athan@gmail.com', '$2b$10$r4PHORyS/Gst7CGpkepfHutpKBDwxNxOexOaxnCwXW6i7o9Dr0udi', NULL, '2021-01-01 15:24:51', '2021-01-01 15:24:51'),
-('byamukamarogers@gmail.com', 'BYAMUKAMA', 'ROGERS', '+256751736273', 'Rukungiri', 3, 'byamukamarogers@gmail.com', '$2b$10$gzbkE2yN1cuBCkSLhVs20OoXtxR/VHHJGWFso5SuiQdWpUmqtrNDS', NULL, '2021-02-27 05:00:43', '2021-02-27 05:00:43'),
-('ivanomax@gmail.com', 'Ivan', 'Omagoro', '+256414123456', 'Kireka-kamuli road', 2, 'ivanomax@gmail.com', '$2b$10$iv.Jq5Ht6FFoI.XUE2MWkOqtYx.lNS7nd3jifFvFo4G7AiyoAokAG', NULL, '2021-02-27 08:45:55', '2021-02-27 08:45:55'),
-('johndoe@gmail.com', 'John', 'Doe', '+256770123456', 'kampala', 1, 'johndoe@gmail.com', '$2b$10$779fao14zR6oifatoRkpYOd4I5aQ1r44bRrjQtyuq9IfekQO1pupu', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('namugwanya1@gmail.com', 'Namugwanya', 'Rose', '+256770123456', 'Masaka', 1, 'namugwanya1@gmail.com', '$2b$10$/Cu8zqNBnUiREThLgXTtbumPK3NzSvTLBXCBisNtpuzPin4PfgOj2', NULL, '2021-01-05 06:44:20', '2021-01-05 06:44:20'),
+('johndoe@gmail.com', 'john', 'doe', '+256770123456', 'kampala', 1, 'johndoe@gmail.com', '$2b$10$779fao14zR6oifatoRkpYOd4I5aQ1r44bRrjQtyuq9IfekQO1pupu', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+('namugwanya1@gmail.com', 'happy', 'legacy', NULL, NULL, 1, 'namugwanya1@gmail.com', '$2b$10$/Cu8zqNBnUiREThLgXTtbumPK3NzSvTLBXCBisNtpuzPin4PfgOj2', NULL, '2021-01-05 06:44:20', '2021-01-05 06:44:20'),
 ('piussavio@gmail.com', 'Pius', 'Savio', '+2567145236', 'eu', 3, 'piussavio@gmail.com', '$2b$10$is95JFM7SHjN6UMPR.x8..Qve0../NaQgiTx76u9Hj50xGHgcNW1O', NULL, '2021-01-01 14:53:25', '2021-01-01 14:53:25'),
-('rose@gmail.com', 'Happy', 'Legacy', '0785990821', 'kabale', 2, 'rose@gmail.com', '$2b$10$NoWxlJnz0obsHiEK4616T.qlMuTqVAiTm9U2wthDySfmEmUTpazBK', 1, '2021-01-02 09:48:08', '2021-01-02 09:48:08');
+('rose@gmail.com', 'happy', 'legacy', '0785990821', 'kabale', 2, 'rose@gmail.com', '$2b$10$NoWxlJnz0obsHiEK4616T.qlMuTqVAiTm9U2wthDySfmEmUTpazBK', 1, '2021-01-02 09:48:08', '2021-01-02 09:48:08');
 
 -- --------------------------------------------------------
 
@@ -332,10 +325,10 @@ CREATE TABLE `workers` (
 --
 
 INSERT INTO `workers` (`workerid`, `firstname`, `lastname`, `telephone`, `nationality`, `idnumber`, `address`, `accounttypeid`, `email`, `addedby`, `created_at`, `updated_at`) VALUES
-(4, 'Atukwatse', 'Athan', '0774525237', 'UGA', NULL, 'Rukungiri', 3, 'athanatukwatse@gmail.com', NULL, '2021-01-01 14:51:12', '2021-01-01 14:51:12'),
-(5, 'Pius', 'Savio', '+2567145236', 'UGA', NULL, 'Soroti', 3, 'piussavio@gmail.com', NULL, '2021-01-01 14:53:24', '2021-01-01 14:53:24'),
-(6, 'Atukwatse', 'Athan', '0774525237', 'UGA', NULL, 'Rukungiri', 3, 'athan@gmail.com', NULL, '2021-01-01 15:24:50', '2021-01-01 15:24:50'),
-(7, 'Namugwanya', 'Rose', '+256414123456', 'UGA', NULL, 'Kiryandongo District', 3, 'namugwanya1@gmail.com', NULL, '2021-02-27 04:57:13', '2021-02-27 04:57:13');
+(1, 'BYAMUKAMA', 'ROGERS', '+256751736273', NULL, NULL, 'fghh', 3, 'rogers@gmail.com', NULL, '2021-01-01 14:35:17', '2021-01-01 14:35:17'),
+(4, 'atukwatse', 'athan', '0774525237', NULL, NULL, 'Rukungiri', 3, 'athanatukwatse@gmail.com', NULL, '2021-01-01 14:51:12', '2021-01-01 14:51:12'),
+(5, 'Pius', 'Savio', '+2567145236', NULL, NULL, 'eu', 3, 'piussavio@gmail.com', NULL, '2021-01-01 14:53:24', '2021-01-01 14:53:24'),
+(6, 'atukwatse', 'athan', '0774525237', NULL, NULL, 'Rukungiri', NULL, 'athan@gmail.com', NULL, '2021-01-01 15:24:50', '2021-01-01 15:24:50');
 
 --
 -- Indexes for dumped tables
@@ -451,12 +444,12 @@ ALTER TABLE `complaints`
 -- AUTO_INCREMENT for table `employers`
 --
 ALTER TABLE `employers`
-  MODIFY `employerid` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `employerid` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `jobapplications`
 --
 ALTER TABLE `jobapplications`
-  MODIFY `jobapplicationid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `jobapplicationid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `jobcategory`
 --
@@ -466,7 +459,7 @@ ALTER TABLE `jobcategory`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `jobid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `jobid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `staff`
 --
@@ -491,7 +484,7 @@ ALTER TABLE `userroles`
 -- AUTO_INCREMENT for table `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `workerid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `workerid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --
