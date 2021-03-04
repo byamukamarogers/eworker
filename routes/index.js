@@ -54,7 +54,7 @@ module.exports = function (passport) {
       console.log('Failed to get connection');
       console.log(err);
     }
-    res.sendFile(path.join(process.cwd(), 'views', 'login.html'));
+    res.sendFile(path.join(process.cwd(), 'views', 'login-main.html'));
   });
 
   router.post('/login', passport.authenticate('local', {
@@ -120,7 +120,7 @@ module.exports = function (passport) {
       }
       if (rawdata.createdBy === null) {
         //redirectToLogin
-        res.sendFile(path.join(process.cwd(), 'views', 'login.html'));
+        res.sendFile(path.join(process.cwd(), 'views', 'login-main.html'));
       } else {
         res.send({ status: 'OK', data: result });
       }
@@ -538,7 +538,7 @@ module.exports = function (passport) {
       }      
       if (rawdata.createdBy === null) {
         //redirectToLogin
-        res.sendFile(path.join(process.cwd(), 'views', 'login.html'));
+        res.sendFile(path.join(process.cwd(), 'views', 'login-main.html'));
       } else {
         res.send({ status: 'OK', data: result });
       }
