@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 29, 2021 at 09:44 AM
+-- Generation Time: Mar 04, 2021 at 01:46 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -66,11 +66,7 @@ CREATE TABLE `complaints` (
 --
 
 INSERT INTO `complaints` (`complaintid`, `workerid`, `complaints`, `addedby`, `daterecorded`, `created_at`, `updated_at`) VALUES
-(2, 6, 'complaint', 6, '2021-01-01', '2021-01-01 15:25:43', '2021-01-01 15:25:43'),
-(3, 6, '', 6, '2021-01-01', '2021-01-01 16:23:09', '2021-01-01 16:23:09'),
-(4, 6, '', 6, '2021-01-01', '2021-01-01 16:25:47', '2021-01-01 16:25:47'),
-(5, 6, 'utfygkhjl', 6, '2021-01-01', '2021-01-01 16:28:08', '2021-01-02 07:09:41'),
-(6, 6, '<div style=\"text-align: center;\"><b><font face=\"times new roman\" size=\"7\" color=\"#ff0000\"><u><i style=\"background-color: rgb(192, 192, 192);\">xhcgv</i></u></font></b></div>', 6, '2021-01-01', '2021-01-01 17:39:07', '2021-01-01 18:01:34');
+(7, 5, 'Am being harassed by my boss <b>lady.</b>', 5, '2021-03-04', '2021-03-04 12:44:35', '2021-03-04 12:44:35');
 
 -- --------------------------------------------------------
 
@@ -88,15 +84,19 @@ CREATE TABLE `employers` (
   `email` varchar(50) NOT NULL,
   `addedby` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  `nationality` varchar(50) NOT NULL DEFAULT 'UGA',
+  `nin` varchar(50) DEFAULT NULL,
+  `maritalstatus` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employers`
 --
 
-INSERT INTO `employers` (`employerid`, `firstname`, `lastname`, `telephone`, `address`, `accounttypeid`, `email`, `addedby`, `created_at`, `updated_at`) VALUES
-(1, 'happy', 'legacy', '0785990821', 'kabale - kisoro', 2, 'rose@gmail.com', 1, '2021-01-02 09:48:08', '2021-01-02 10:21:36');
+INSERT INTO `employers` (`employerid`, `firstname`, `lastname`, `telephone`, `address`, `accounttypeid`, `email`, `addedby`, `created_at`, `updated_at`, `nationality`, `nin`, `maritalstatus`) VALUES
+(1, 'Namugwanya', 'Rose', '0785990821', 'kabale - kisoro', 2, 'rose@gmail.com', 1, '2021-01-02 09:48:08', '2021-01-02 10:21:36', 'UGA', NULL, NULL),
+(9, 'Ivan', 'Omagoro', '+256414123456', 'Kireka-kamuli road', 2, 'ivanomax@gmail.com', NULL, '2021-02-27 08:45:55', '2021-02-27 08:45:55', 'UGA', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -109,7 +109,7 @@ CREATE TABLE `jobapplications` (
   `jobid` int(11) NOT NULL,
   `workerid` int(11) NOT NULL,
   `isapproved` tinyint(1) DEFAULT '0',
-  `dateposted` datetime DEFAULT '2021-01-05 04:52:06',
+  `dateposted` datetime DEFAULT '2021-03-04 09:42:45',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -119,31 +119,7 @@ CREATE TABLE `jobapplications` (
 --
 
 INSERT INTO `jobapplications` (`jobapplicationid`, `jobid`, `workerid`, `isapproved`, `dateposted`, `created_at`, `updated_at`) VALUES
-(1, 1, 6, 0, '2021-01-05 05:52:44', '2021-01-02 10:35:27', '2021-01-05 05:52:44');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jobcategory`
---
-
-CREATE TABLE `jobcategory` (
-  `jobcategoryid` int(11) NOT NULL,
-  `jobcategoryname` varchar(50) NOT NULL,
-  `jobcategorydescription` text,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `jobcategory`
---
-
-INSERT INTO `jobcategory` (`jobcategoryid`, `jobcategoryname`, `jobcategorydescription`, `created_at`, `updated_at`) VALUES
-(1, 'Done ', 'Sample', '2021-01-02 08:58:02', '2021-01-02 09:01:47'),
-(2, 'Sample', 'Sample', '2021-01-02 08:59:28', '2021-01-02 09:01:03'),
-(3, 'New', 'New', '2021-01-02 09:02:49', '2021-01-02 09:02:49'),
-(4, 'last Try', 'Last Tru', '2021-01-02 09:04:31', '2021-01-02 09:04:31');
+(4, 5, 5, 0, '2021-03-04 12:43:34', '2021-01-02 09:48:08', '2021-03-04 12:43:34');
 
 -- --------------------------------------------------------
 
@@ -155,22 +131,50 @@ CREATE TABLE `jobs` (
   `jobid` int(11) NOT NULL,
   `jobname` varchar(50) NOT NULL,
   `jobdescription` text,
-  `jobcategoryid` int(11) DEFAULT NULL,
   `employerid` int(11) DEFAULT NULL,
   `isapproved` tinyint(1) DEFAULT '0',
   `staffid` int(11) DEFAULT NULL,
-  `dateposted` datetime DEFAULT '2021-01-05 04:52:06',
+  `dateposted` datetime DEFAULT '2021-03-04 09:49:04',
   `expirydate` datetime NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  `jobtypeid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `jobs`
 --
 
-INSERT INTO `jobs` (`jobid`, `jobname`, `jobdescription`, `jobcategoryid`, `employerid`, `isapproved`, `staffid`, `dateposted`, `expirydate`, `created_at`, `updated_at`) VALUES
-(1, 'sdfsd', 'dfgfd', 3, 1, 0, NULL, '2021-01-02 09:46:21', '2021-01-14 21:00:00', '2021-01-02 10:35:27', '2021-01-02 11:05:26');
+INSERT INTO `jobs` (`jobid`, `jobname`, `jobdescription`, `employerid`, `isapproved`, `staffid`, `dateposted`, `expirydate`, `created_at`, `updated_at`, `jobtypeid`) VALUES
+(5, 'Baby sitter', 'Baby sitting 2 year old everyday for a month', 1, 0, NULL, '2021-03-04 12:39:48', '2021-03-03 21:00:00', '2021-01-02 09:48:08', '2021-03-04 12:41:43', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobtype`
+--
+
+CREATE TABLE `jobtype` (
+  `jobtypeid` int(11) NOT NULL,
+  `jobtypename` varchar(50) NOT NULL,
+  `jobtypedescription` text,
+  `minsalary` int(11) DEFAULT NULL,
+  `maxsalary` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jobtype`
+--
+
+INSERT INTO `jobtype` (`jobtypeid`, `jobtypename`, `jobtypedescription`, `minsalary`, `maxsalary`, `created_at`, `updated_at`) VALUES
+(1, 'Slashing', 'compound slashing', 20000, 50000, '2021-01-05 06:44:20', '2021-03-04 10:07:00'),
+(2, 'Baby Sitting', 'Stay home baby sitter', 180000, 300000, '2021-01-05 06:44:20', '2021-03-04 12:34:20'),
+(3, 'Cooking', 'Daily cooking', 20000, 50000, '2021-01-05 06:44:20', '2021-03-04 12:35:01'),
+(4, 'Washing', 'Washing, charged monthly', 150000, 200000, '2021-01-05 06:44:20', '2021-03-04 12:35:36'),
+(5, 'Digging', 'Daily charge', 4000, 8000, '2021-01-05 06:44:20', '2021-03-04 12:36:13'),
+(6, 'House Cleaning', 'House cleaning on a daily basis', 20000, 30000, '2021-01-05 06:44:20', '2021-03-04 12:36:50');
 
 -- --------------------------------------------------------
 
@@ -198,9 +202,8 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`staffid`, `firstname`, `lastname`, `email`, `gender`, `address`, `phone1`, `phone2`, `stafftypeid`, `createdby`, `created_at`, `updated_at`) VALUES
-(1, 'John', 'Doe', 'johndoe@gmail.com', 'M', 'Recent', '+256414123', NULL, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'happy', 'legacy', 'rosenamugwanya1@gmail.com', 'FEMALE', 'unknown', '0785990821', NULL, 2, 1, '2021-01-05 06:38:57', '2021-01-05 06:38:57'),
-(4, 'happy', 'legacy', 'namugwanya1@gmail.com', 'FEMALE', NULL, '0785990821', NULL, 2, 1, '2021-01-05 06:44:20', '2021-01-05 06:44:20');
+(1, 'John', 'Doe', 'johndoe@gmail.com', 'MALE', 'Recent', '+256414123', NULL, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'Pauline ', 'Rose', 'paulineikaisit42@gmail.com', 'FEMALE', 'unknown', '0785990821', NULL, 2, 1, '2021-01-05 06:38:57', '2021-01-05 06:38:57');
 
 -- --------------------------------------------------------
 
@@ -246,7 +249,6 @@ CREATE TABLE `userpermissions` (
 --
 
 INSERT INTO `userpermissions` (`userpermissionid`, `userid`, `roleid`, `readonly`, `write`, `edit`, `createddate`, `createdby`) VALUES
-(1, 'athan@gmail.com', 1, 0, 1, 1, '2021-01-05 00:00:00', 1),
 (2, 'rose@gmail.com', 2, 0, 1, 1, '2021-01-05 00:00:00', 0);
 
 -- --------------------------------------------------------
@@ -293,11 +295,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userid`, `firstname`, `lastname`, `telephone`, `address`, `accounttypeid`, `email`, `password`, `addedby`, `created_at`, `updated_at`) VALUES
-('athan@gmail.com', 'atukwatse', 'athan', '0774525237', 'Rukungiri', 3, 'athan@gmail.com', '$2b$10$r4PHORyS/Gst7CGpkepfHutpKBDwxNxOexOaxnCwXW6i7o9Dr0udi', NULL, '2021-01-01 15:24:51', '2021-01-01 15:24:51'),
-('johndoe@gmail.com', 'john', 'doe', '+256770123456', 'kampala', 1, 'johndoe@gmail.com', '$2b$10$779fao14zR6oifatoRkpYOd4I5aQ1r44bRrjQtyuq9IfekQO1pupu', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('namugwanya1@gmail.com', 'happy', 'legacy', NULL, NULL, 1, 'namugwanya1@gmail.com', '$2b$10$/Cu8zqNBnUiREThLgXTtbumPK3NzSvTLBXCBisNtpuzPin4PfgOj2', NULL, '2021-01-05 06:44:20', '2021-01-05 06:44:20'),
-('piussavio@gmail.com', 'Pius', 'Savio', '+2567145236', 'eu', 3, 'piussavio@gmail.com', '$2b$10$is95JFM7SHjN6UMPR.x8..Qve0../NaQgiTx76u9Hj50xGHgcNW1O', NULL, '2021-01-01 14:53:25', '2021-01-01 14:53:25'),
-('rose@gmail.com', 'happy', 'legacy', '0785990821', 'kabale', 2, 'rose@gmail.com', '$2b$10$NoWxlJnz0obsHiEK4616T.qlMuTqVAiTm9U2wthDySfmEmUTpazBK', 1, '2021-01-02 09:48:08', '2021-01-02 09:48:08');
+('ivanomax@gmail.com', 'Ivan', 'Omagoro', '+256414123456', 'Kireka-kamuli road', 2, 'ivanomax@gmail.com', '$2b$10$iv.Jq5Ht6FFoI.XUE2MWkOqtYx.lNS7nd3jifFvFo4G7AiyoAokAG', NULL, '2021-02-27 08:45:55', '2021-02-27 08:45:55'),
+('paulineikaisit42@gmail.com', 'IKAISIT', 'PAULINE', '+256770123456', 'Masaka', 1, 'paulineikaisit42@gmail.com', '$2b$10$/Cu8zqNBnUiREThLgXTtbumPK3NzSvTLBXCBisNtpuzPin4PfgOj2', NULL, '2021-01-05 06:44:20', '2021-01-05 06:44:20'),
+('piussavio@gmail.com', 'Pius', 'Savio', '+2567145236', 'Mbale', 3, 'piussavio@gmail.com', '$2b$10$is95JFM7SHjN6UMPR.x8..Qve0../NaQgiTx76u9Hj50xGHgcNW1O', NULL, '2021-01-01 14:53:25', '2021-01-01 14:53:25'),
+('rose@gmail.com', 'Namugwanya', 'Rose', '0785990821', 'Mpigi', 2, 'rose@gmail.com', '$2b$10$NoWxlJnz0obsHiEK4616T.qlMuTqVAiTm9U2wthDySfmEmUTpazBK', 1, '2021-01-02 09:48:08', '2021-01-02 09:48:08');
 
 -- --------------------------------------------------------
 
@@ -310,25 +311,29 @@ CREATE TABLE `workers` (
   `firstname` varchar(50) DEFAULT NULL,
   `lastname` varchar(50) DEFAULT NULL,
   `telephone` varchar(15) DEFAULT NULL,
-  `nationality` varchar(100) DEFAULT NULL,
+  `nationality` varchar(100) DEFAULT 'UGA',
   `idnumber` varchar(100) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `accounttypeid` int(11) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `addedby` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  `nextofkin` varchar(50) DEFAULT NULL,
+  `nextofkinphone` varchar(50) DEFAULT NULL,
+  `parentname` varchar(50) DEFAULT NULL,
+  `parentphonenumber` varchar(50) DEFAULT NULL,
+  `maritalstatus` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `workers`
 --
 
-INSERT INTO `workers` (`workerid`, `firstname`, `lastname`, `telephone`, `nationality`, `idnumber`, `address`, `accounttypeid`, `email`, `addedby`, `created_at`, `updated_at`) VALUES
-(1, 'BYAMUKAMA', 'ROGERS', '+256751736273', NULL, NULL, 'fghh', 3, 'rogers@gmail.com', NULL, '2021-01-01 14:35:17', '2021-01-01 14:35:17'),
-(4, 'atukwatse', 'athan', '0774525237', NULL, NULL, 'Rukungiri', 3, 'athanatukwatse@gmail.com', NULL, '2021-01-01 14:51:12', '2021-01-01 14:51:12'),
-(5, 'Pius', 'Savio', '+2567145236', NULL, NULL, 'eu', 3, 'piussavio@gmail.com', NULL, '2021-01-01 14:53:24', '2021-01-01 14:53:24'),
-(6, 'atukwatse', 'athan', '0774525237', NULL, NULL, 'Rukungiri', NULL, 'athan@gmail.com', NULL, '2021-01-01 15:24:50', '2021-01-01 15:24:50');
+INSERT INTO `workers` (`workerid`, `firstname`, `lastname`, `telephone`, `nationality`, `idnumber`, `address`, `accounttypeid`, `email`, `addedby`, `created_at`, `updated_at`, `nextofkin`, `nextofkinphone`, `parentname`, `parentphonenumber`, `maritalstatus`) VALUES
+(5, 'Pius', 'Savio', '+2567145236', 'UGA', NULL, 'Soroti', 3, 'piussavio@gmail.com', NULL, '2021-01-01 14:53:24', '2021-01-01 14:53:24', NULL, NULL, NULL, NULL, NULL),
+(6, 'Atukwatse', 'Athan', '0774525237', 'UGA', NULL, 'Rukungiri', 3, 'athan@gmail.com', NULL, '2021-01-01 15:24:50', '2021-01-01 15:24:50', NULL, NULL, NULL, NULL, NULL),
+(7, 'Namugwanya', 'Rose', '+256414123456', 'UGA', NULL, 'Kiryandongo District', 3, 'namugwanya1@gmail.com', NULL, '2021-02-27 04:57:13', '2021-02-27 04:57:13', NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -354,7 +359,10 @@ ALTER TABLE `employers`
   ADD PRIMARY KEY (`employerid`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `email_2` (`email`),
-  ADD UNIQUE KEY `email_3` (`email`);
+  ADD UNIQUE KEY `email_3` (`email`),
+  ADD UNIQUE KEY `email_4` (`email`),
+  ADD UNIQUE KEY `email_5` (`email`),
+  ADD UNIQUE KEY `email_6` (`email`);
 
 --
 -- Indexes for table `jobapplications`
@@ -364,18 +372,18 @@ ALTER TABLE `jobapplications`
   ADD KEY `workerid` (`workerid`);
 
 --
--- Indexes for table `jobcategory`
---
-ALTER TABLE `jobcategory`
-  ADD PRIMARY KEY (`jobcategoryid`);
-
---
 -- Indexes for table `jobs`
 --
 ALTER TABLE `jobs`
   ADD PRIMARY KEY (`jobid`),
-  ADD KEY `jobcategoryid` (`jobcategoryid`),
+  ADD KEY `jobs_JobTypeid_foreign_idx` (`jobtypeid`),
   ADD KEY `employerid` (`employerid`);
+
+--
+-- Indexes for table `jobtype`
+--
+ALTER TABLE `jobtype`
+  ADD PRIMARY KEY (`jobtypeid`);
 
 --
 -- Indexes for table `staff`
@@ -386,6 +394,9 @@ ALTER TABLE `staff`
   ADD UNIQUE KEY `email_2` (`email`),
   ADD UNIQUE KEY `email_3` (`email`),
   ADD UNIQUE KEY `email_4` (`email`),
+  ADD UNIQUE KEY `email_5` (`email`),
+  ADD UNIQUE KEY `email_6` (`email`),
+  ADD UNIQUE KEY `email_7` (`email`),
   ADD KEY `stafftypeid` (`stafftypeid`);
 
 --
@@ -414,7 +425,8 @@ ALTER TABLE `userroles`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`userid`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `email_2` (`email`);
+  ADD UNIQUE KEY `email_2` (`email`),
+  ADD UNIQUE KEY `email_3` (`email`);
 
 --
 -- Indexes for table `workers`
@@ -424,7 +436,10 @@ ALTER TABLE `workers`
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `email_2` (`email`),
   ADD UNIQUE KEY `email_3` (`email`),
-  ADD UNIQUE KEY `email_4` (`email`);
+  ADD UNIQUE KEY `email_4` (`email`),
+  ADD UNIQUE KEY `email_5` (`email`),
+  ADD UNIQUE KEY `email_6` (`email`),
+  ADD UNIQUE KEY `email_7` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -439,27 +454,27 @@ ALTER TABLE `acounttypes`
 -- AUTO_INCREMENT for table `complaints`
 --
 ALTER TABLE `complaints`
-  MODIFY `complaintid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `complaintid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `employers`
 --
 ALTER TABLE `employers`
-  MODIFY `employerid` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `employerid` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `jobapplications`
 --
 ALTER TABLE `jobapplications`
-  MODIFY `jobapplicationid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `jobcategory`
---
-ALTER TABLE `jobcategory`
-  MODIFY `jobcategoryid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `jobapplicationid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `jobid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `jobid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `jobtype`
+--
+ALTER TABLE `jobtype`
+  MODIFY `jobtypeid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `staff`
 --
@@ -484,7 +499,7 @@ ALTER TABLE `userroles`
 -- AUTO_INCREMENT for table `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `workerid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `workerid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- Constraints for dumped tables
 --
@@ -505,14 +520,14 @@ ALTER TABLE `jobapplications`
 -- Constraints for table `jobs`
 --
 ALTER TABLE `jobs`
-  ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`jobcategoryid`) REFERENCES `jobcategory` (`jobcategoryid`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `jobs_ibfk_2` FOREIGN KEY (`employerid`) REFERENCES `employers` (`employerid`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `jobs_JobTypeid_foreign_idx` FOREIGN KEY (`JobTypeid`) REFERENCES `jobtype` (`jobtypeid`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`employerid`) REFERENCES `employers` (`employerid`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `staff`
 --
 ALTER TABLE `staff`
-  ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`stafftypeid`) REFERENCES `stafftypes` (`stafftypeid`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`stafftypeid`) REFERENCES `stafftypes` (`stafftypeid`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `userpermissions`
