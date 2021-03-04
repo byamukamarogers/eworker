@@ -403,7 +403,6 @@ module.exports = function (passport) {
         result = await models.Job.update(data, { where: { jobId: data.jobId } });
       } else {
         data.employerId = req.session.passport.user.user_id;
-        //data.expiryDate = rawdata.expiryDate;
         result = await models.Job.create(data);
       }
       if (result) {

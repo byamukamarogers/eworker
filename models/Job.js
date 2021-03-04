@@ -17,7 +17,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         JobTypeId: {
             type: DataTypes.INTEGER,
-            field: 'JobTypeid'
+            field: 'jobtypeid'
         },
         employerId: {
             type: DataTypes.INTEGER,
