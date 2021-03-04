@@ -58,7 +58,6 @@ Ext.define('eworker.view.Jobs.JobController', {
         Ext.create('Ext.window.Window', {
             modal: true,
             title: 'ADD NEW JOB',
-            //width: 'fit',
             layout: 'fit',
             autoShow: true,
             items: [
